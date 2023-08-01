@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace Launch
 {
@@ -17,11 +13,13 @@ namespace Launch
         public byte[] filecontent;
 
         [DllImport("Unpack.dll")]
-        static extern int Pack(byte[] src, int srcSize, byte** dest, out int destSize, int dw, int dw2);
+        private static extern int Pack(byte[] src, int srcSize, byte** dest, out int destSize, int dw, int dw2);
+
         [DllImport("Unpack.dll")]
-        static extern int Unpack(byte[] src, int srcSize, byte** dest, out int destSize, int dw);
+        private static extern int Unpack(byte[] src, int srcSize, byte** dest, out int destSize, int dw);
+
         [DllImport("Unpack.dll")]
-        static extern int PackFree(byte* dest);
+        private static extern int PackFree(byte* dest);
 
         public static bool Unpack(byte[] src, byte[] dst)
         {
@@ -59,11 +57,9 @@ namespace Launch
             }
             else
                 dst = new byte[0];
-                PackFree(pDst);
+            PackFree(pDst);
 
             return (res == 1);
         }
-
     }
-
 }

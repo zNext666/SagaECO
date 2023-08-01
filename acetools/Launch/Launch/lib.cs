@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-namespace lib
+﻿namespace lib
 {
     public class Files
     {
@@ -10,6 +6,7 @@ namespace lib
         public string path;
         public string md5;
     }
+
     public static class Conversions
     {
         public static string bytes2HexString(byte[] b)

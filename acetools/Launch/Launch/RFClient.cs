@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
 using System.IO;
+using System.Text;
 
-using System.Runtime.InteropServices;
 namespace Launch
 {
     public class RFClient
@@ -14,7 +10,8 @@ namespace Launch
         {
             public string filename, filesize;
         }
-        string VerFileAddress = "http://patch.gungho.jp/eco/econew.ver";
+
+        private string VerFileAddress = "http://patch.gungho.jp/eco/econew.ver";
 
         /// <summary>
         /// 通过本地文件eco.ver获取本地版本号
@@ -37,6 +34,7 @@ namespace Launch
                 return 0;
             }
         }
+
         /// <summary>
         /// 通过VerFileAddress获取日服的版本号
         /// </summary>

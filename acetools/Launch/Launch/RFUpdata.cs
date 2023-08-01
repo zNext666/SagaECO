@@ -1,12 +1,9 @@
-﻿using System;
+﻿using CabLib;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.IO;
 using System.Runtime.InteropServices;
-using CabLib;
+using System.Text;
 
 namespace Launch
 {
@@ -14,10 +11,11 @@ namespace Launch
     {
         [DllImport("kernel32.dll", EntryPoint = "GetCurrentDirectoryA", CharSet = CharSet.Ansi)]
         private static extern int GetCurrentDirectory(int MaxCount, StringBuilder s_Text);
-        string PathFileAddress = "http://patch.gungho.jp/eco/D00000";
-        string TempFolderName = "temp";
-        RFClient rfc = new RFClient();
-        DateTime time = DateTime.Now;
+
+        private string PathFileAddress = "http://patch.gungho.jp/eco/D00000";
+        private string TempFolderName = "temp";
+        private RFClient rfc = new RFClient();
+        private DateTime time = DateTime.Now;
 
         public bool check()
         {
@@ -55,7 +53,7 @@ namespace Launch
                         System.Windows.MessageBox.Show(ex.ToString());
                     }
                     int needver = MainWindow.ver_limit - localver;
-                    MainWindow.instance.Dispatcher.Invoke(new Action(() => { MainWindow.instance.Pb_Total.Value = 8 + needver /77; }));
+                    MainWindow.instance.Dispatcher.Invoke(new Action(() => { MainWindow.instance.Pb_Total.Value = 8 + needver / 77; }));
                 }
             }
             MainWindow.instance.Dispatcher.Invoke(new Action(() => { MainWindow.instance.Pb_Total.Value = 85; }));
@@ -69,6 +67,7 @@ namespace Launch
             else
                 return false;
         }
+
         public void DisposeDFL()
         {
             //获取DFL文件
@@ -79,7 +78,7 @@ namespace Launch
                 if (file.Name.Contains(".dfl"))
                     dflFiles.Add(file);
             }
-            MainWindow.instance.Dispatcher.Invoke(new Action(() => {MainWindow.instance.lb_state.Content = "*开始升级..."; }));
+            MainWindow.instance.Dispatcher.Invoke(new Action(() => { MainWindow.instance.lb_state.Content = "*开始升级..."; }));
             System.Threading.Thread.Sleep(300);
             //进行修补
             for (int i = 0; i < dflFiles.Count; i++)
@@ -108,6 +107,7 @@ namespace Launch
                 ECOdat.Close();
             }
         }
+
         public bool MoveFiles()
         {
             string path = TempFolderName + "\\cab" + "\\add_list.txt";
@@ -123,7 +123,7 @@ namespace Launch
                     fi.Attributes = FileAttributes.Normal;
                     File.Delete(file);
                 }
-                MainWindow.instance.Dispatcher.Invoke(new Action(() => {MainWindow.instance.lb_state.Content = "移动：" + Path.GetFileName(file); }));
+                MainWindow.instance.Dispatcher.Invoke(new Action(() => { MainWindow.instance.lb_state.Content = "移动：" + Path.GetFileName(file); }));
                 string folder = System.IO.Path.GetDirectoryName(file);
                 if (!System.IO.Directory.Exists(folder) && folder != "")
                     System.IO.Directory.CreateDirectory(folder);
@@ -134,6 +134,7 @@ namespace Launch
             fs.Close();
             return true;
         }
+
         /// <summary>
         /// 根据DFL打开ECO文件
         /// </summary>
@@ -146,6 +147,7 @@ namespace Launch
             ECOdat.Open(path);
             return ECOdat;
         }
+
         /// <summary>
         /// 打开DFL文件
         /// </summary>
@@ -158,6 +160,7 @@ namespace Launch
             DFLdat.Open(tfn + "\\" + file.Name);
             return DFLdat;
         }
+
         /// <summary>
         /// 根据DFL文件名称获取ECO路径
         /// </summary>
@@ -176,6 +179,7 @@ namespace Launch
             outname = outname + ".hed";
             return outname;
         }
+
         /// <summary>
         /// 解压文件
         /// </summary>
@@ -206,6 +210,7 @@ namespace Launch
                 return false;
             }
         }
+
         /// <summary>
         /// 通过版本号获取补丁文件列表
         /// </summary>
@@ -233,6 +238,7 @@ namespace Launch
             sr.Close();
             return filelist;
         }
+
         public bool DeleteTemp(DirectoryInfo di)
         {
             try
@@ -258,8 +264,8 @@ namespace Launch
                 MainWindow.instance.Dispatcher.Invoke(new Action(() => { MainWindow.instance.lb_state.Content = "在删除临时文件夹时发生了错误！"; }));
                 return false;
             }
-            
         }
+
         public bool updata(int ver)
         {
             try
@@ -289,7 +295,6 @@ namespace Launch
                     MainWindow.instance.Dispatcher.Invoke(new Action(() => { MainWindow.instance.lb_state.Content = "(" + i.ToString() + "/" + filelist.Count.ToString() + ")文件:" + filelist[i].filename; }));
                     try
                     {
-
                         string FileAddress = PathFileAddress + ver + "/" + filelist[i].filename;
                         System.Net.WebClient wc = new System.Net.WebClient();
                         System.Threading.AutoResetEvent sync = new System.Threading.AutoResetEvent(false);
@@ -340,7 +345,8 @@ namespace Launch
                 return false;
             }
         }
-        void DownloadProgressChanged(object sender, System.Net.DownloadProgressChangedEventArgs e)
+
+        private void DownloadProgressChanged(object sender, System.Net.DownloadProgressChangedEventArgs e)
         {
             if ((DateTime.Now - time).TotalMilliseconds > 80)
             {
@@ -349,6 +355,7 @@ namespace Launch
                 MainWindow.instance.Dispatcher.Invoke(new Action(() => { MainWindow.instance.lb_evolve.Content = e.BytesReceived + "/" + e.TotalBytesToReceive; }));
             }
         }
+
         /*void onDownloadUpdate(object sender, Launch.StatusUpdateEventArgs e)
         {
             if ((DateTime.Now - time).TotalMilliseconds > 80)

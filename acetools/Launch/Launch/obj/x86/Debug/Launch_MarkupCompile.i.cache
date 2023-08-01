@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-E:\ECOAceProject\Tools\Launch\Launch\obj\x86\Debug\
+C:\repo\SagaECO\acetools\Launch\Launch\obj\x86\Debug\
 Launch
 none
 false
 DEBUG;TRACE
-E:\ECOAceProject\Tools\Launch\Launch\App.xaml
-11151548125
+C:\repo\SagaECO\acetools\Launch\Launch\App.xaml
+1219584333
 
-14-1626178885
-14310884534
+14-503263450
+14-1547746666
 MainWindow.xaml;
 
-True
+False
 

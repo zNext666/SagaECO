@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 
 namespace SagaLib
 {
     public class Encryption
     {
-        byte[] aesKey = { 2, 3, 3, 74, 56, 5, 20, 0, 2, 13, 2, 13, 2, 13, 2, 13 };
-        Rijndael aes;
+        private byte[] aesKey = { 2, 3, 3, 74, 56, 5, 20, 0, 2, 13, 2, 13, 2, 13, 2, 13 };
+        private Rijndael aes;
 
         public Encryption()
         {
@@ -18,12 +14,14 @@ namespace SagaLib
             aes.KeySize = 128;
             aes.Padding = PaddingMode.None;
         }
+
         public class Files
         {
             public string name;
             public string path;
             public string md5;
         }
+
         public static class Conversions
         {
             public static string bytes2HexString(byte[] b)
@@ -38,6 +36,7 @@ namespace SagaLib
                 return tmp;
             }
         }
+
         public byte[] Decrypt(byte[] src, int offset)
         {
             if (aesKey == null) return src;
@@ -66,6 +65,5 @@ namespace SagaLib
             crypt.TransformBlock(buf, offset, len_, buf, offset);
             return buf;
         }
-
     }
 }
