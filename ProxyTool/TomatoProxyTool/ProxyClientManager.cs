@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
-using System.Net.Sockets;
-using System.Threading;
-using System.Threading.Tasks;
-
-using System.Reflection;
-using Microsoft.CSharp;
-using System.IO;
-using System.CodeDom.Compiler;
-
+﻿using Microsoft.CSharp;
 using SagaLib;
+using System;
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Sockets;
+using System.Reflection;
+using System.Threading;
 namespace TomatoProxyTool
 {
     public class ProxyClientManager : ClientManager
@@ -72,15 +67,15 @@ namespace TomatoProxyTool
                 {
                     Socket sock = listener.AcceptSocket();
                     string ip = sock.RemoteEndPoint.ToString().Substring(0, sock.RemoteEndPoint.ToString().IndexOf(':'));
-                    Form1.Instance.Invoke(new Action(() => { Form1.Instance.PacketInfoBox.Text += "\r\n......"; }));
+                    MainUI.Instance.Invoke(new Action(() => { MainUI.Instance.PacketInfoBox.Text += "\r\n......"; }));
                     ProxyClient client = new ProxyClient(sock, this.commandTable, this.IP, port, this.packetContainerClient, this.packetContainerServer, this.packets, this.firstlvlen, this.mapServer);
-                    Form1.Instance.Invoke(new Action(() => { Form1.Instance.PacketInfoBox.Text += "\r\nNew client form:" + sock.RemoteEndPoint.ToString(); }));
+                    MainUI.Instance.Invoke(new Action(() => { MainUI.Instance.PacketInfoBox.Text += "\r\nNew client form:" + sock.RemoteEndPoint.ToString(); }));
                     clients.Add(client);
                 }
             }
             catch (Exception ex)
             {
-                Form1.Instance.Invoke(new Action(() => { Form1.Instance.PacketInfoBox.Text += ex.ToString(); }));
+                MainUI.Instance.Invoke(new Action(() => { MainUI.Instance.PacketInfoBox.Text += ex.ToString(); }));
             }
         }
         public override void OnClientDisconnect(Client client_t)
@@ -107,12 +102,12 @@ namespace TomatoProxyTool
                         //Logger.ShowInfo(string.Format("Containing {0} Events", tmp));
                         pcount += tmp;
                     }
-                     }
+                }
                 return proxyIDList;
             }
             catch (Exception ex)
             {
-                Form1.Instance.Invoke(new Action(() => { Form1.Instance.showmessage(ex.ToString()); }));
+                MainUI.Instance.Invoke(new Action(() => { MainUI.Instance.showmessage(ex.ToString()); }));
                 return proxyIDList;
             }
 
@@ -181,12 +176,12 @@ namespace TomatoProxyTool
                             PP p = new PP();
                             p.name = newEvent.ToString();
                             p.length = newEvent.data.Length;
-                            this.proxyIDList.Add(newEvent.ID,p);
+                            this.proxyIDList.Add(newEvent.ID, p);
                         }
                         else
                         {
                             //if (newEvent.ID != 0)
-                                //Logger.ShowWarning(string.Format("EventID:{0} already exists, Class:{1} droped", newEvent.ID, npcType.FullName));
+                            //Logger.ShowWarning(string.Format("EventID:{0} already exists, Class:{1} droped", newEvent.ID, npcType.FullName));
                         }
                     }
                     catch (Exception ex)

@@ -1,19 +1,16 @@
-﻿using System;
+﻿using SagaLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Net.Sockets;
-
-using SagaLib;
 
 namespace TomatoProxyTool
 {
-    public class ServerSession :Client
+    public class ServerSession : Client
     {
         public enum SESSION_STATE
         {
-            CONNECTED,DISCONNECTED
+            CONNECTED, DISCONNECTED
         }
         public SESSION_STATE state;
         public ProxyClient Client;
@@ -23,8 +20,8 @@ namespace TomatoProxyTool
         bool mapserver = false;
 
         Dictionary<ushort, Packet> commandTable;
-        
-        public ServerSession(string host,int port,ProxyClient client,bool mapserver)
+
+        public ServerSession(string host, int port, ProxyClient client, bool mapserver)
         {
             this.commandTable = new Dictionary<ushort, Packet>();
             this.commandTable.Add(0xFFFF, new Packets.Server.SendUniversal());
@@ -45,7 +42,7 @@ namespace TomatoProxyTool
             {
                 if (times < 0)
                 {
-                    Form1.Instance.Invoke(new Action(() => { Form1.Instance.PacketInfoBox.Text += "\r\nCannot connect to the server, please check the configuration!"; }));
+                    MainUI.Instance.Invoke(new Action(() => { MainUI.Instance.PacketInfoBox.Text += "\r\nCannot connect to the server, please check the configuration!"; }));
                     return;
                 }
                 try
@@ -53,10 +50,10 @@ namespace TomatoProxyTool
                     sock.Connect(new System.Net.IPEndPoint(System.Net.IPAddress.Parse(host), port));
                     Connected = true;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    Form1.Instance.Invoke(new Action(() => { Form1.Instance.PacketInfoBox.Text += ex.ToString(); }));
-                    Form1.Instance.Invoke(new Action(() => { Form1.Instance.PacketInfoBox.Text += "\r\nFailed... Trying again in 5sec"; }));
+                    MainUI.Instance.Invoke(new Action(() => { MainUI.Instance.PacketInfoBox.Text += ex.ToString(); }));
+                    MainUI.Instance.Invoke(new Action(() => { MainUI.Instance.PacketInfoBox.Text += "\r\nFailed... Trying again in 5sec"; }));
                     System.Threading.Thread.Sleep(5000);
                     Connected = false;
                 }
@@ -64,7 +61,7 @@ namespace TomatoProxyTool
             }
             while (!Connected);
 
-            Form1.Instance.Invoke(new Action(() => { Form1.Instance.PacketInfoBox.Text += "\r\nSuccessfully connected to server"; }));
+            MainUI.Instance.Invoke(new Action(() => { MainUI.Instance.PacketInfoBox.Text += "\r\nSuccessfully connected to server"; }));
             this.state = SESSION_STATE.CONNECTED;
             try
             {
@@ -75,16 +72,16 @@ namespace TomatoProxyTool
                 p.data[7] = 0x10;
                 this.netIO.SendPacket(p, true, true);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Form1.Instance.Invoke(new Action(() => { Form1.Instance.PacketInfoBox.Text += ex.ToString(); }));
+                MainUI.Instance.Invoke(new Action(() => { MainUI.Instance.PacketInfoBox.Text += ex.ToString(); }));
             }
         }
         public void OnSendUniversal(Packets.Server.SendUniversal p)
         {
             OnSendUniversal(p, false);
         }
-        public void OnSendUniversal(Packets.Server.SendUniversal p,bool s)
+        public void OnSendUniversal(Packets.Server.SendUniversal p, bool s)
         {
             try
             {
@@ -104,15 +101,17 @@ namespace TomatoProxyTool
                 this.Client.packetContainerServer.Add(p1);
 
                 byte ms = 0;
-                if (mapserver) ms = 1;else ms = 0;
+                if (mapserver) ms = 1; else ms = 0;
 
-                Form1.Instance.Invoke(new Action(() => { 
-                    Form1.Instance.PacketsList.Items.Add(string.Format("0x{0:X4},{1},Server,{2},{3}", p.ID, p.data.Length, this.Client.packetContainerServer.IndexOf(p1), ms)); 
-                    if(!Form1.Instance.ProxyIDList.Keys.Contains(p.ID)) {
-                        Form1.Instance.PacketsList.Items[Form1.Instance.PacketsList.Items.Count-1] = "*" + Form1.Instance.PacketsList.Items[Form1.Instance.PacketsList.Items.Count-1];
-                        Form1.Instance.listBox1.Items.Add(string.Format("0x{0:X4},{1},Server,{2},{3}", p.ID, p.data.Length, this.Client.packetContainerServer.IndexOf(p1), ms));
+                MainUI.Instance.Invoke(new Action(() =>
+                {
+                    MainUI.Instance.PacketsList.Items.Add(string.Format("0x{0:X4},{1},Server,{2},{3}", p.ID, p.data.Length, this.Client.packetContainerServer.IndexOf(p1), ms));
+                    if (!MainUI.Instance.ProxyIDList.Keys.Contains(p.ID))
+                    {
+                        MainUI.Instance.PacketsList.Items[MainUI.Instance.PacketsList.Items.Count - 1] = "*" + MainUI.Instance.PacketsList.Items[MainUI.Instance.PacketsList.Items.Count - 1];
+                        MainUI.Instance.listBox1.Items.Add(string.Format("0x{0:X4},{1},Server,{2},{3}", p.ID, p.data.Length, this.Client.packetContainerServer.IndexOf(p1), ms));
                     }
-                    if(p.ID == 0x020D)
+                    if (p.ID == 0x020D)
                     {
                         uint charid = p.GetUInt(6);
                         byte size;
@@ -121,31 +120,31 @@ namespace TomatoProxyTool
                         buf = p.GetBytes(size, 11);
                         string res = Global.Unicode.GetString(buf);
                         res = res.Replace("\0", "");
-                        if(charid < 100000000)
-                        Form1.Instance.listBox2.Items.Add(string.Format("{0},{1},Server,{2},{3}", res, p.data.Length, this.Client.packetContainerServer.IndexOf(p1), ms));
+                        if (charid < 100000000)
+                            MainUI.Instance.listBox2.Items.Add(string.Format("{0},{1},Server,{2},{3}", res, p.data.Length, this.Client.packetContainerServer.IndexOf(p1), ms));
                     }
                 }));
-                if (Form1.Instance.autofollow.Checked)
-                    Form1.Instance.Invoke(new Action(() =>{ Form1.Instance.PacketsList.TopIndex = Form1.Instance.PacketsList.Items.Count - 1;}));
-                if (Form1.Instance.checkBox3.Checked)
+                if (MainUI.Instance.autofollow.Checked)
+                    MainUI.Instance.Invoke(new Action(() => { MainUI.Instance.PacketsList.TopIndex = MainUI.Instance.PacketsList.Items.Count - 1; }));
+                if (MainUI.Instance.checkBox3.Checked)
                     System.Threading.Thread.Sleep(300);
-                if (s != true || Form1.Instance.nextproxy != true)
+                if (s != true || MainUI.Instance.nextproxy != true)
                 {
-                    while (Form1.Instance.checkBox4.Checked)
+                    while (MainUI.Instance.checkBox4.Checked)
                     {
                         System.Threading.Thread.Sleep(100);
                     }
                 }
-                if (Form1.Instance.nextproxy == true) Form1.Instance.nextproxy = false;
+                if (MainUI.Instance.nextproxy == true) MainUI.Instance.nextproxy = false;
                 if (p.ID == 0x33 && !mapserver)
                     Handle0x33(p);
-                if(p.ID == 0x34)
-                    Form1.Instance.login = true;
+                if (p.ID == 0x34)
+                    MainUI.Instance.login = true;
                 Client.netIO.SendPacket(p);
             }
             catch (Exception ex)
             {
-                Form1.Instance.Invoke(new Action(() => { Form1.Instance.PacketInfoBox.Text += ex.ToString(); }));
+                MainUI.Instance.Invoke(new Action(() => { MainUI.Instance.PacketInfoBox.Text += ex.ToString(); }));
             }
         }
         public override void OnConnect()
@@ -160,19 +159,19 @@ namespace TomatoProxyTool
                 this.state = SESSION_STATE.DISCONNECTED;
                 //this.Client.netIO.Disconnect();
             }
-        }      
+        }
         void Handle0x33(Packet p)
         {
-            if (!Form1.Instance.login)
+            if (!MainUI.Instance.login)
             {
                 string sss = System.Text.Encoding.ASCII.GetString(p.GetBytes(83, 0));
-                string name = System.Text.Encoding.ASCII.GetString(p.GetBytes((ushort)(p.GetByte((ushort)(2))-1), (ushort)3));
+                string name = System.Text.Encoding.ASCII.GetString(p.GetBytes((ushort)(p.GetByte((ushort)(2)) - 1), (ushort)3));
                 int ipindex = p.GetByte(2) + 3;
                 string ipport = System.Text.Encoding.ASCII.GetString(p.GetBytes(p.GetByte((ushort)(ipindex)), (ushort)ipindex));
                 string ip = ipport.Substring(2, ipport.IndexOf(":") - 2);
                 int port = int.Parse(ipport.Substring(ipport.IndexOf(":") + 1, ipport.IndexOf(",") - ipport.IndexOf(":") - 1));
                 string si = "";
-                Form1.Instance.Invoke(new Action(() => { si = Form1.Instance.comboBox1.SelectedItem.ToString();}));
+                MainUI.Instance.Invoke(new Action(() => { si = MainUI.Instance.comboBox1.SelectedItem.ToString(); }));
                 if (si == "日服")
                 {
                     if (name == "Freesia")
@@ -184,12 +183,12 @@ namespace TomatoProxyTool
                 else
                 {
                     ProxyClientManager.Instance.IP = ip;
-                   ProxyClientManager.Instance.port = port;
+                    ProxyClientManager.Instance.port = port;
                 }
 
                 byte[] buf = System.Text.Encoding.UTF8.GetBytes("\03GOF\0AT127.0.0.1:12000,127.0.0.1:12000,127.0.0.1:12000,127.0.0.1:12000\0");
                 p.data = buf;
-            } 
+            }
             else
             {
                 byte serverid = p.GetByte(2);
@@ -197,23 +196,23 @@ namespace TomatoProxyTool
                 size--;
                 string ip = System.Text.Encoding.ASCII.GetString(p.GetBytes(size, 4));
                 int port = p.GetInt((ushort)(5 + size));
-                if (Form1.pm != null)
+                if (MainUI.pm != null)
                 {
-                    Form1.pm.ready = false;
-                    Form1.pm.Stop();
+                    MainUI.pm.ready = false;
+                    MainUI.pm.Stop();
                 }
-                Form1.pm = new ProxyClientManager();
-                Form1.pm.firstlvlen = 2;
-                Form1.pm.mapServer = true;
-                Form1.pm.IP = ip;
-                Form1.pm.port = port;
-                Form1.pm.packetContainerServer = PacketContainer.Instance.packetsMap;
-                Form1.pm.packetContainerClient = PacketContainer.Instance.packetsClient;
-                Form1.pm.packets = PacketContainer.Instance.packets2;
+                MainUI.pm = new ProxyClientManager();
+                MainUI.pm.firstlvlen = 2;
+                MainUI.pm.mapServer = true;
+                MainUI.pm.IP = ip;
+                MainUI.pm.port = port;
+                MainUI.pm.packetContainerServer = PacketContainer.Instance.packetsMap;
+                MainUI.pm.packetContainerClient = PacketContainer.Instance.packetsClient;
+                MainUI.pm.packets = PacketContainer.Instance.packets2;
                 int localport = port;
-                while (!Form1.pm.StartNetwork(localport))
+                while (!MainUI.pm.StartNetwork(localport))
                     localport++;
-                Form1.pm.ready = true;
+                MainUI.pm.ready = true;
                 byte[] buf = System.Text.Encoding.UTF8.GetBytes("127.0.0.001");
                 p.data = new byte[buf.Length + 9];
                 p.ID = 0x33;

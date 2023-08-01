@@ -1,6 +1,6 @@
 ﻿namespace TomatoProxyTool
 {
-    public partial class Form1
+    public partial class MainUI
     {
         /// <summary>
         /// 必需的设计器变量。
