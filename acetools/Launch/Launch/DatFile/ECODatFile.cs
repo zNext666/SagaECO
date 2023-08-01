@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 
 namespace Launch
 {
     public unsafe class ECODatFile : Header
     {
-        Dictionary<string, Header> headers = new Dictionary<string, Header>();
+        private Dictionary<string, Header> headers = new Dictionary<string, Header>();
 
-        System.IO.BinaryReader brdata;
-        System.IO.BinaryWriter bwdata;
-        System.IO.BinaryReader brhed;
-        System.IO.BinaryWriter bwhed;
+        private System.IO.BinaryReader brdata;
+        private System.IO.BinaryWriter bwdata;
+        private System.IO.BinaryReader brhed;
+        private System.IO.BinaryWriter bwhed;
 
-        public Dictionary<string, Header> Files { get { return this.headers; } }
+        public Dictionary<string, Header> Files
+        { get { return this.headers; } }
 
         public void Open(string path)
         {
@@ -57,9 +55,10 @@ namespace Launch
                 if (headers.ContainsKey(filenames[i]))
                     System.Windows.MessageBox.Show("!" + filenames[i]);
                 else
-                headers.Add(filenames[i], header);
+                    headers.Add(filenames[i], header);
             }
         }
+
         public void Add(string filename, byte[] input)
         {
             if (!headers.ContainsKey(filename))
@@ -106,10 +105,12 @@ namespace Launch
             else
                 Replace(filename, input);
         }
+
         public bool Exists(string filename)
         {
             return headers.ContainsKey(filename);
         }
+
         public byte[] Extract(string filename)
         {
             if (headers.ContainsKey(filename))
@@ -131,6 +132,7 @@ namespace Launch
             }
             return null;
         }
+
         public void Replace(string filename, byte[] buf)
         {
             if (headers.ContainsKey(filename))
@@ -149,6 +151,7 @@ namespace Launch
                 bwhed.Write(header.unpacksize);
             }
         }
+
         public void Repack(string path)
         {
             string[] files = System.IO.Directory.GetFiles(path);
@@ -204,7 +207,6 @@ namespace Launch
             output.Close();
             header.Flush();
             header.Close();
-
         }
 
         public void Close()

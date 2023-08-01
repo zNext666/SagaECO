@@ -1,20 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
-using System.Security;
-using System.Threading;
-using SagaLib;
 using System.Security.Cryptography;
 
 namespace Launch
 {
     public partial class COFUpdata
     {
-        DateTime time = DateTime.Now;
+        private DateTime time = DateTime.Now;
+
         public bool check()
         {
             try
@@ -100,7 +92,6 @@ namespace Launch
                             MainWindow.instance.Dispatcher.Invoke(new Action(() => { MainWindow.instance.lb_state.Content = "下载文件:" + i; })); //+ "(" + valuecount + "/" + frm_Main.patch.Count + ")";
                             try
                             {
-
                                 HttpClient http = new HttpClient(MainWindow.patchUrl + "/" + i.Replace("\\", "/"));
                                 http.StatusUpdate += onDownloadUpdate;
                                 byte[] buf = http.GetBytes();
@@ -128,7 +119,8 @@ namespace Launch
             MainWindow.instance.Dispatcher.Invoke(new Action(() => { MainWindow.instance.lb_state.Content = "更新完成"; }));
             return true;
         }
-        void onDownloadUpdate(object sender, Launch.StatusUpdateEventArgs e)
+
+        private void onDownloadUpdate(object sender, Launch.StatusUpdateEventArgs e)
         {
             if ((DateTime.Now - time).TotalMilliseconds > 80)
             {

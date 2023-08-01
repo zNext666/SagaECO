@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Net;
-using System.Web;
+using System.Text;
 
 namespace Launch
 {
     public class HttpClient
     {
         #region fields
+
         private bool keepContext;
         public CookieContainer Cookies = null;
         private string defaultLanguage = "zh-CN";
@@ -24,9 +24,11 @@ namespace Launch
         private WebHeaderCollection responseHeaders;
         private int startPoint;
         private int endPoint;
-        #endregion
+
+        #endregion fields
 
         #region events
+
         public event EventHandler<StatusUpdateEventArgs> StatusUpdate;
 
         private void OnStatusUpdate(StatusUpdateEventArgs e)
@@ -36,9 +38,11 @@ namespace Launch
             if (temp != null)
                 temp(this, e);
         }
-        #endregion
-        
+
+        #endregion events
+
         #region properties
+
         /// <summary>
         /// 是否自动在不同的请求间保留Cookie, Referer
         /// </summary>
@@ -154,9 +158,10 @@ namespace Launch
             set { endPoint = value; }
         }
 
-        #endregion
+        #endregion properties
 
         #region constructors
+
         /// <summary>
         /// 构造新的HttpClient实例
         /// </summary>
@@ -198,9 +203,11 @@ namespace Launch
             if (this.context == null)
                 this.context = new HttpClientContext();
         }
-        #endregion
+
+        #endregion constructors
 
         #region AttachFile
+
         /// <summary>
         /// 在请求中添加要上传的文件
         /// </summary>
@@ -223,7 +230,8 @@ namespace Launch
             HttpUploadingFile file = new HttpUploadingFile(data, fileName, fieldName);
             files.Add(file);
         }
-        #endregion
+
+        #endregion AttachFile
 
         /// <summary>
         /// 清空PostingData, Files, StartPoint, EndPoint, ResponseHeaders, 并把Verb设置为Get.

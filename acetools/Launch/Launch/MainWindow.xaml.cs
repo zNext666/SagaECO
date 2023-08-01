@@ -1,53 +1,50 @@
-﻿using System;
+﻿using SagaLib;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Threading;
-using SagaLib;
-using System.IO;
-using System.Diagnostics;
 
 namespace Launch
 {
-	/// <summary>
-	/// MainWindow.xaml 的交互逻辑
-	/// </summary>
-	public partial class MainWindow : Window
-	{
+    /// <summary>
+    /// MainWindow.xaml 的交互逻辑
+    /// </summary>
+    public partial class MainWindow : Window
+    {
         public static MainWindow instance;
-		public MainWindow()
-		{
-			this.InitializeComponent();
+
+        public MainWindow()
+        {
+            this.InitializeComponent();
             instance = this;
-			// 在此点下面插入创建对象所需的代码。
-		}
+            // 在此点下面插入创建对象所需的代码。
+        }
 
-
-        string configUrl = "http://lalala.yuki.cc/patch_list.rlf";
-        Encryption enc = new Encryption();
-        string title, notice, official, register;
+        private string configUrl = "http://lalala.yuki.cc/patch_list.rlf";
+        private Encryption enc = new Encryption();
+        private string title, notice, official, register;
         public static Dictionary<string, string> patch = new Dictionary<string, string>();
         public static string patchUrl;
         public static string NoticeUrl, OfficialUrl, RegisterUrl;
         public static string LabelLink, LabelLink2, LabelLink3, LabelLink4;
         public static bool isClose;
         public static string CloseMessage;
-        public static int ver_rf, ver_limit ,ver_local;
-        RFClient rfc = new RFClient();
+        public static int ver_rf, ver_limit, ver_local;
+        private RFClient rfc = new RFClient();
+
         private void Window_Loaded_1(object sender, RoutedEventArgs e)
         {
             string url;
-            RandomStartButtonPic("",out url);//随机UI
+            RandomStartButtonPic("", out url);//随机UI
             /////////////////////////读取COF配置文件/////////////////////////
+
             #region 读取COF配置文件
+
             try
             {
                 BitmapImage bi = new BitmapImage(new Uri(url));
@@ -84,7 +81,7 @@ namespace Launch
 
                     if (isClose)
                     {
-                        MessageBox.Show(CloseMessage,"登录器已关闭");
+                        MessageBox.Show(CloseMessage, "登录器已关闭");
                         Close();
                     }
                 }
@@ -105,10 +102,14 @@ namespace Launch
                 MessageBox.Show("配置文件读取失败！\r\n配置文件可能已被损坏，或绑定信息不符", "读取失败");
                 Close();
             }
-            #endregion
+
+            #endregion 读取COF配置文件
+
             ///////////////////////结束读取COF配置文件///////////////////////
             //////////////////////////获取版本信息//////////////////////////
+
             #region 获取版本信息
+
             try
             {
                 ver_local = rfc.LoadLocalVer();
@@ -122,9 +123,10 @@ namespace Launch
             {
                 MessageBox.Show("获取日服版本信息失败！\r\n请联系管理员，错误内容：\r\n" + ex.Message, "读取失败");
             }
-            #endregion
-            ///////////////////////结束获取版本信息/////////////////////////
 
+            #endregion 获取版本信息
+
+            ///////////////////////结束获取版本信息/////////////////////////
 
             if (ver_local <= ver_rf)
             {
@@ -137,7 +139,7 @@ namespace Launch
                 {
                     NeedVerText.Content = "已达到所需版本";
                     Button.Content = "开始游戏";
-                    lb_state.Content = "客户端达到了所需版本号。"   ;
+                    lb_state.Content = "客户端达到了所需版本号。";
                 }
             }
             else
@@ -145,6 +147,7 @@ namespace Launch
                 Close();
             }
         }
+
         private void Button_Click_1(object sender, RoutedEventArgs e)//大按钮
         {
             Button.IsEnabled = false;
@@ -157,17 +160,15 @@ namespace Launch
                     MainWindow.instance.Dispatcher.Invoke(new Action(() => { MainWindow.instance.Pb_Total.Value = 100; }));
                     System.Diagnostics.Process.Start("eco.exe", "/launch");
                     this.Dispatcher.Invoke(new Action(() => Close()));
-
                 }
-           }, null);
-
+            }, null);
         }
-        void RandomStartButtonPic(string s,out string y)
+
+        private void RandomStartButtonPic(string s, out string y)
         {
             Random random = new Random();
             y = "http://papapa.otaku.asia/image/startbutton/button" + random.Next(0, 13).ToString() + ".png";
         }
-
 
         private void Button_Click(object sender, RoutedEventArgs e)//关闭按钮
         {
@@ -183,14 +184,17 @@ namespace Launch
         {
             System.Diagnostics.Process.Start("explorer.exe", LabelLink);
         }
+
         private void LinkLabel2_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             System.Diagnostics.Process.Start("explorer.exe", LabelLink);
         }
+
         private void LinkLabel3_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             System.Diagnostics.Process.Start("explorer.exe", LabelLink);
         }
+
         private void LinkLabel4_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             System.Diagnostics.Process.Start("explorer.exe", LabelLink);

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Controls;
 using System.ComponentModel;
 using System.Drawing;
 using System.Timers;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace WpfDemoNew.Control
 {
@@ -19,31 +16,35 @@ namespace WpfDemoNew.Control
         /// <summary>
         /// 定时器
         /// </summary>
-        Timer MarqueeTimer = new Timer();
+        private Timer MarqueeTimer = new Timer();
+
         /// <summary>
         /// 滚动文字源
         /// </summary>
-        String _TextSource = "滚动文字源";
+        private String _TextSource = "滚动文字源";
+
         /// <summary>
         /// 输出文本
         /// </summary>
-        String _OutText = string.Empty;
+        private String _OutText = string.Empty;
+
         /// <summary>
         /// 过度文本存储
         /// </summary>
-        string _TempString = string.Empty;
+        private string _TempString = string.Empty;
+
         /// <summary>
         /// 文字的滚动速度
         /// </summary>
-        double _RunSpeed = 1000;
+        private double _RunSpeed = 1000;
 
-        DateTime _SignTime;
-        bool _IfFirst = true;
+        private DateTime _SignTime;
+        private bool _IfFirst = true;
 
         /// <summary>
         /// 滚动一循环字幕停留的秒数,单位为毫秒,默认值停留3秒
         /// </summary>
-        int _StopSecond = 3000;
+        private int _StopSecond = 3000;
 
         /// <summary>
         /// 滚动一循环字幕停留的秒数,单位为毫秒,默认值停留3秒
@@ -60,7 +61,7 @@ namespace WpfDemoNew.Control
         /// <summary>
         /// 滚动的速度
         /// </summary>
-        [Description("文字滚动的速度")]　//显示在属性设计视图中的描述
+        [Description("文字滚动的速度")] //显示在属性设计视图中的描述
         public double RunSpeed
         {
             get { return _RunSpeed; }
@@ -106,8 +107,7 @@ namespace WpfDemoNew.Control
             this.Loaded += new RoutedEventHandler(ScrollingTextControl_Loaded);//绑定控件Loaded事件
         }
 
-
-        void ScrollingTextControl_Loaded(object sender, RoutedEventArgs e)
+        private void ScrollingTextControl_Loaded(object sender, RoutedEventArgs e)
         {
             _TextSource = SetContent;
             _TempString = _TextSource + "   ";
@@ -115,8 +115,7 @@ namespace WpfDemoNew.Control
             _SignTime = DateTime.Now;
         }
 
-
-        void MarqueeTimer_Elapsed(object sender, ElapsedEventArgs e)
+        private void MarqueeTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             if (string.IsNullOrEmpty(_OutText)) return;
 
@@ -140,14 +139,10 @@ namespace WpfDemoNew.Control
 
             _OutText = _OutText.Substring(1) + _OutText[0];
 
-
             Dispatcher.BeginInvoke(new Action(() =>
             {
                 SetContent = _OutText;
             }));
-
-
         }
-
     }
 }
