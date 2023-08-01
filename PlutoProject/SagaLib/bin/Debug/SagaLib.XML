@@ -1012,9 +1012,9 @@
             Specifies order for PPM methods.
             </summary>
         </member>
-        <!-- 对于成员“F:SevenZip.CoderPropID.PosStateBits”忽略有格式错误的 XML 注释 -->
-        <!-- 对于成员“F:SevenZip.CoderPropID.LitContextBits”忽略有格式错误的 XML 注释 -->
-        <!-- 对于成员“F:SevenZip.CoderPropID.LitPosBits”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "F:SevenZip.CoderPropID.PosStateBits" -->
+        <!-- Badly formed XML comment ignored for member "F:SevenZip.CoderPropID.LitContextBits" -->
+        <!-- Badly formed XML comment ignored for member "F:SevenZip.CoderPropID.LitPosBits" -->
         <member name="F:SevenZip.CoderPropID.NumFastBytes">
             <summary>
             Specifies number of fast bytes for LZ*.

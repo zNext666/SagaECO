@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Data;
 using System.Security.Cryptography;
 
 
 using SagaDB.Actor;
 using SagaDB.Item;
 using SagaLib;
-using MySql.Data;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
+using System.Data;
 
 namespace SagaDB
 {
