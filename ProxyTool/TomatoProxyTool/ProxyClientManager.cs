@@ -75,7 +75,11 @@ namespace TomatoProxyTool
             }
             catch (Exception ex)
             {
-                MainUI.Instance.Invoke(new Action(() => { MainUI.Instance.PacketInfoBox.Text += ex.ToString(); }));
+                if (ex.GetType() != typeof(System.Threading.ThreadAbortException))
+                {
+                    MainUI.Instance.Invoke(new Action(() => { MainUI.Instance.PacketInfoBox.Text += ex.ToString(); }));
+                }
+
             }
         }
         public override void OnClientDisconnect(Client client_t)
