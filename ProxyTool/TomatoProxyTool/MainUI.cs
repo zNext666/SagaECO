@@ -1,5 +1,6 @@
 ﻿using SagaLib;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -194,7 +195,7 @@ namespace TomatoProxyTool
             {
                 ushort offset;
                 string tmp3 = "";
-                tmp3 += "--------------基础信息------------\r\n";
+                tmp3 += "--------------BasicInfo------------\r\n";
                 tmp3 += "ActorID:" + p.GetUInt(2).ToString() + ",";
                 tmp3 += "CharID:" + p.GetUInt(6).ToString() + ",";
 
@@ -205,12 +206,12 @@ namespace TomatoProxyTool
                 string res = Global.Unicode.GetString(buf);
                 res = res.Replace("\0", "");
                 tmp3 += "角色名:" + res + "\r\n";
-                tmp3 += "-------------基础外形ID-----------\r\n";
+                tmp3 += "-------------BaseShapeID-----------\r\n";
                 offset = (ushort)(16 + size);
                 tmp3 += "种族:" + getb(p, offset) + " DEM形态:" + getb(p, offset + 1) + " 性别:" + getb(p, offset + 2) + "\r\n";
                 tmp3 += "发型ID:" + getus(p, offset + 3) + " 发色:" + getb(p, offset + 5) + " 附发:" + getus(p, offset + 6) + " 脸型:" + getus(p, offset + 9) + "\r\n";
                 tmp3 += "尾巴:" + getb(p, offset + 12) + " 翅膀:" + getb(p, offset + 13) + " 翅膀颜色:" + getb(p, offset + 14) + "\r\n";
-                tmp3 += "-------------道具外形ID-----------\r\n";
+                tmp3 += "-------------PropShapeID-----------\r\n";
                 for (int j = 0; j < 14; j++)
                     tmp3 += ((EnumEquipSlot)j).ToString() + ":" + getui(p, offset + 139 + j * 4) + "\r\n";
                 textBox7.Text = tmp3;
@@ -359,7 +360,7 @@ namespace TomatoProxyTool
                 string tmp = PacketInfoBox.SelectedText.Replace(" ", "");
                 tmp = tmp.Replace("\r\n", "");
                 if (tmp.Length >= 9)
-                    textBox1.Text = "太大";
+                    textBox1.Text = "Too big";
                 else
                     textBox1.Text = Conversions.ToInteger(tmp).ToString();
                 byte[] buf = SagaLib.Conversions.HexStr2Bytes(tmp);
@@ -388,14 +389,13 @@ namespace TomatoProxyTool
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedItem.ToString() == "日服")
-                ServerIPBox.Text = "211.13.229.49:12200";
-            else if (comboBox1.SelectedItem.ToString() == "本地")
-                ServerIPBox.Text = "127.0.0.1:12006";
-            else if (comboBox1.SelectedItem.ToString() == "COF")
-                ServerIPBox.Text = "127.0.0.1:12006";
-            else if (comboBox1.SelectedItem.ToString() == "阿里云")
-                ServerIPBox.Text = "101.200.197.1:12006";
+            // items need order
+            List<String> presentsIp = new List<String> { "211.13.229.49:12200", "127.0.0.1:12006", "127.0.0.1:12006", "101.200.197.1:12006", };
+
+            if (comboBox1.SelectedIndex < comboBox1.Items.Count)
+            {
+                ServerIPBox.Text = presentsIp[comboBox1.SelectedIndex];
+            }
 
         }
 
@@ -429,7 +429,7 @@ namespace TomatoProxyTool
                 string tmp = PacketDataBox.SelectedText.Replace(" ", "");
                 tmp = tmp.Replace("\r\n", "");
                 if (tmp.Length >= 9)
-                    textBox1.Text = "太大";
+                    textBox1.Text = "Too big";
                 else
                     textBox1.Text = Conversions.ToInteger(tmp).ToString();
                 byte[] buf = SagaLib.Conversions.HexStr2Bytes(tmp);
@@ -466,7 +466,7 @@ namespace TomatoProxyTool
                 string tmp = textBox2.SelectedText.Replace(" ", "");
                 tmp = tmp.Replace("\r\n", "");
                 if (tmp.Length >= 9)
-                    textBox5.Text = "太大";
+                    textBox5.Text = "Too big";
                 else
                     textBox5.Text = Conversions.ToInteger(tmp).ToString();
                 byte[] buf = SagaLib.Conversions.HexStr2Bytes(tmp);
@@ -482,7 +482,7 @@ namespace TomatoProxyTool
             try
             {
                 ProxyIDList = ProxyClientManager.Instance.LoadProxyListFromLocal("./Server");
-                button6.Text = "已完成加载: " + ProxyIDList.Count.ToString() + "个";
+                button6.Text = "Loaded: " + ProxyIDList.Count.ToString() + "个";
                 button6.Enabled = false;
             }
             catch (Exception ex)
@@ -570,7 +570,7 @@ namespace TomatoProxyTool
             {
                 ushort offset;
                 string tmp3 = "";
-                tmp3 += "--------------基础信息------------\r\n";
+                tmp3 += "--------------BasicInfo------------\r\n";
                 tmp3 += "ActorID:" + p.GetUInt(2).ToString() + ",";
                 tmp3 += "CharID:" + p.GetUInt(6).ToString() + ",";
 
@@ -580,13 +580,13 @@ namespace TomatoProxyTool
                 buf = p.GetBytes(size, 11);
                 string res = Global.Unicode.GetString(buf);
                 res = res.Replace("\0", "");
-                tmp3 += "角色名:" + res + "\r\n";
-                tmp3 += "-------------基础外形ID-----------\r\n";
+                tmp3 += "Character name:" + res + "\r\n";
+                tmp3 += "-------------BaseShapeID-----------\r\n";
                 offset = (ushort)(11 + size);
-                tmp3 += "种族:" + getb(p, offset) + " DEM形态:" + getb(p, offset + 1) + " 性别:" + getb(p, offset + 2) + "\r\n";
-                tmp3 += "发型ID:" + getus(p, offset + 3) + " 发色:" + getb(p, offset + 5) + " 附发:" + getus(p, offset + 6) + " 脸型:" + getus(p, offset + 9) + "\r\n";
-                tmp3 += "尾巴:" + getb(p, offset + 12) + " 翅膀:" + getb(p, offset + 13) + " 翅膀颜色:" + getb(p, offset + 14) + "\r\n";
-                tmp3 += "-------------道具外形ID-----------\r\n";
+                tmp3 += "Race:" + getb(p, offset) + " DEM form:" + getb(p, offset + 1) + " Gender:" + getb(p, offset + 2) + "\r\n";
+                tmp3 += "Hairstyle ID:" + getus(p, offset + 3) + " Hair color:" + getb(p, offset + 5) + " Attachment:" + getus(p, offset + 6) + " Face shape:" + getus(p, offset + 9) + "\r\n";
+                tmp3 += "Tail:" + getb(p, offset + 12) + " Wing:" + getb(p, offset + 13) + " Wing color:" + getb(p, offset + 14) + "\r\n";
+                tmp3 += "-------------PropShapeID-----------\r\n";
                 for (int j = 0; j < 14; j++)
                     tmp3 += ((EnumEquipSlot)j).ToString() + ":" + getui(p, offset + 16 + j * 4) + "\r\n";
                 textBox7.Text = tmp3;
@@ -654,8 +654,8 @@ namespace TomatoProxyTool
                 dat.Open(openFileDialog1.FileName);
                 LoadItemPictCsv(dat.Extract("itempict.csv"));
                 LoadFaceCsv(dat.Extract("face_info.csv"));
-                label12.Text = "已加载pict数量:" + Pictlines.Count.ToString();
-                textBox8.Text = "Pict已加载，选中0x020D/0x01FF封包时，会自动在此显示PICT";
+                label12.Text = "The number of loaded picts:" + Pictlines.Count.ToString();
+                textBox8.Text = "Pict has been loaded, when the 0x020D/0x01FF packet is selected, the PICT will be displayed here automatically";
                 button8.Enabled = false;
                 dat.Close();
             }
@@ -780,5 +780,11 @@ namespace TomatoProxyTool
                 login = false;
             }
         }
+
+        private void autofollow_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
+
