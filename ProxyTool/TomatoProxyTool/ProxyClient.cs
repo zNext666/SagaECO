@@ -1,12 +1,7 @@
-﻿using System;
+﻿using SagaLib;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
 using System.Net.Sockets;
-using System.Threading.Tasks;
-
-using SagaLib;
 
 namespace TomatoProxyTool
 {
@@ -20,12 +15,12 @@ namespace TomatoProxyTool
 
         public enum SESSION_STATE
         {
-            LOGIN,MAP,REDIRECTING,DISCONNECTED
+            LOGIN, MAP, REDIRECTING, DISCONNECTED
         }
         public SESSION_STATE state;
         public ServerSession session;
 
-        public ProxyClient(Socket mSock,Dictionary<ushort,Packet> mCommandTable,string ip,int port,List<Packet> clientp,List<Packet>serverp,List<Packet>p,ushort lvllen,bool mapserver)
+        public ProxyClient(Socket mSock, Dictionary<ushort, Packet> mCommandTable, string ip, int port, List<Packet> clientp, List<Packet> serverp, List<Packet> p, ushort lvllen, bool mapserver)
         {
             this.netIO = new NetIO(mSock, mCommandTable, this);
             this.netIO.FirstLevelLength = lvllen;
@@ -34,8 +29,8 @@ namespace TomatoProxyTool
             this.packetContainerServer = serverp;
 
             this.packets = p;
-            session = new ServerSession(ip, port,this, mapserver);
-            Form1.client = session;
+            session = new ServerSession(ip, port, this, mapserver);
+            MainUI.client = session;
             if (mapserver) ms = 1; else ms = 0;
             this.netIO.SetMode(NetIO.Mode.Server);
             if (this.netIO.sock.Connected)
@@ -81,15 +76,15 @@ namespace TomatoProxyTool
                 string tmp2 = this.DumpData(p);
                 tmp = string.Format(tmp, "Client", p.ID, this.ToString(), p.data.Length, tmp2, "{0}");*/
 
-                Form1.Instance.Invoke(new Action(() => { Form1.Instance.PacketsList.Items.Add(string.Format("0x{0:X4},{1},Client,{2},{3}", p.ID, p.data.Length, this.packetContainer.IndexOf(p1), ms)); }));
-                if (Form1.Instance.autofollow.Checked)
-                    Form1.Instance.Invoke(new Action(() => { Form1.Instance.PacketsList.TopIndex = Form1.Instance.PacketsList.Items.Count - 1; }));
+                MainUI.Instance.Invoke(new Action(() => { MainUI.Instance.PacketsList.Items.Add(string.Format("0x{0:X4},{1},Client,{2},{3}", p.ID, p.data.Length, this.packetContainer.IndexOf(p1), ms)); }));
+                if (MainUI.Instance.autofollow.Checked)
+                    MainUI.Instance.Invoke(new Action(() => { MainUI.Instance.PacketsList.TopIndex = MainUI.Instance.PacketsList.Items.Count - 1; }));
 
                 session.netIO.SendPacket(p);
             }
             catch (Exception ex)
             {
-                Form1.Instance.Invoke(new Action(() => { Form1.Instance.PacketInfoBox.Text += ex.ToString(); }));
+                MainUI.Instance.Invoke(new Action(() => { MainUI.Instance.PacketInfoBox.Text += ex.ToString(); }));
             }
         }
         public string DumpData(Packet p)

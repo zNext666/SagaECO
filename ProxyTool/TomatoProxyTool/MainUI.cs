@@ -1,26 +1,25 @@
-﻿using System;
+﻿using SagaLib;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.IO;
-using System.Threading;
-using SagaLib;
+using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace TomatoProxyTool
 {
-    public partial class Form1 : Form
+    public partial class MainUI : Form
     {
-        public Form1()
+        public MainUI()
         {
             InitializeComponent();
             instance = this;
             comboBox1.SelectedIndex = 0;
         }
-        static Form1 instance;
+        static MainUI instance;
 
-        public static Form1 Instance { get { return instance; } }
+        public static MainUI Instance { get { return instance; } }
 
         public static ProxyClientManager pm;
         static Thread t;
@@ -349,7 +348,7 @@ namespace TomatoProxyTool
         {
             return p.GetUInt((ushort)offset).ToString();
         }
-        string geti(Packet p,int offset)
+        string geti(Packet p, int offset)
         {
             return p.GetInt((ushort)offset).ToString();
         }
@@ -611,9 +610,9 @@ namespace TomatoProxyTool
                         string[] ItemPict = Pictlines[pictid].Split(',');
                         if (ItemPict.Length >= 36)
                             for (int i = 36; i <= 38; i++)
-                                if(ItemPict.Length - 1 >= i)
-                                if (ItemPict[i] == "null")
-                                    npcPict[i] = "null";
+                                if (ItemPict.Length - 1 >= i)
+                                    if (ItemPict[i] == "null")
+                                        npcPict[i] = "null";
                         if (ItemPict.Length >= 33)
                         {
                             if (ItemPict[33] != "")

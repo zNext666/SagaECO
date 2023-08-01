@@ -1,10 +1,6 @@
-﻿using System;
+﻿using SagaLib;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using SagaLib;
 namespace TomatoProxyTool
 {
     [Serializable]
