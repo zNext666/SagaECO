@@ -15,22 +15,25 @@ namespace TomatoProxyTool
             public int index;
         }
 
-        Dictionary<string, Header> headers = new Dictionary<string, Header>();
-        System.IO.BinaryReader brdata;
-        System.IO.BinaryWriter bwdata;
-        System.IO.BinaryReader brhed;
-        System.IO.BinaryWriter bwhed;
-        System.IO.FileStream fs;
-        System.IO.FileStream datafs;
+        private Dictionary<string, Header> headers = new Dictionary<string, Header>();
+        private System.IO.BinaryReader brdata;
+        private System.IO.BinaryWriter bwdata;
+        private System.IO.BinaryReader brhed;
+        private System.IO.BinaryWriter bwhed;
+        private System.IO.FileStream fs;
+        private System.IO.FileStream datafs;
 
-        public Dictionary<string, Header> Files { get { return this.headers; } }
+        public Dictionary<string, Header> Files
+        { get { return this.headers; } }
 
         [DllImport("Unpack.dll")]
-        static extern int Pack(byte[] src, int srcSize, byte** dest, out int destSize, int dw, int dw2);
+        private static extern int Pack(byte[] src, int srcSize, byte** dest, out int destSize, int dw, int dw2);
+
         [DllImport("Unpack.dll")]
-        static extern int Unpack(byte[] src, int srcSize, byte** dest, out int destSize, int dw);
+        private static extern int Unpack(byte[] src, int srcSize, byte** dest, out int destSize, int dw);
+
         [DllImport("Unpack.dll")]
-        static extern int PackFree(byte** dest);
+        private static extern int PackFree(byte** dest);
 
         public static bool Unpack(byte[] src, byte[] dst)
         {
@@ -112,6 +115,7 @@ namespace TomatoProxyTool
                 headers.Add(filenames[i], header);
             }
         }
+
         public bool Exists(string filename)
         {
             return headers.ContainsKey(filename);

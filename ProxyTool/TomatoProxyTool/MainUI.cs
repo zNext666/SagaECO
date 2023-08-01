@@ -1,6 +1,5 @@
 ﻿using SagaLib;
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,13 +17,15 @@ namespace TomatoProxyTool
             instance = this;
             comboBox1.SelectedIndex = 0;
         }
-        static MainUI instance;
 
-        public static MainUI Instance { get { return instance; } }
+        private static MainUI instance;
+
+        public static MainUI Instance
+        { get { return instance; } }
 
         public static ProxyClientManager pm;
-        static Thread t;
-        static Thread co;
+        private static Thread t;
+        private static Thread co;
         public static SagaLib.Client client;
         public bool nextproxy = false;
         public bool login = false;
@@ -32,7 +33,8 @@ namespace TomatoProxyTool
 
         public Dictionary<uint, string> Pictlines = new Dictionary<uint, string>();
         public Dictionary<uint, string> FacePicts = new Dictionary<uint, string>();
-        DatFile dat;
+        private DatFile dat;
+
         private void Launch_Click(object sender, EventArgs e)
         {
             string[] IPPort = ServerIPBox.Text.ToString().Split(':');
@@ -58,7 +60,8 @@ namespace TomatoProxyTool
             groupBox3.Enabled = true;
             Stop_Click.Enabled = true;
         }
-        static void loop()
+
+        private static void loop()
         {
             while (true)
             {
@@ -72,12 +75,12 @@ namespace TomatoProxyTool
                 }
                 else
                 {
-
                 }
                 System.Threading.Thread.Sleep(1);
             }
         }
-        static void enterkey()
+
+        private static void enterkey()
         {
             /*while (true)
             { }*/
@@ -101,6 +104,7 @@ namespace TomatoProxyTool
                     else if (type == "Server")
                         p = ProxyClientManager.Instance.packetContainerServer[index];
                     break;
+
                 case 1:
                     if (type == "Client")
                         p = pm.packetContainerClient[index];
@@ -267,7 +271,8 @@ namespace TomatoProxyTool
                 textBox8.Text = tmp4;
             }
         }
-        string GetRaceFlag(byte race, byte gender)
+
+        private string GetRaceFlag(byte race, byte gender)
         {
             string RaceGender = "";
             switch (gender)
@@ -278,29 +283,36 @@ namespace TomatoProxyTool
                         case 0:
                             RaceGender = "00";
                             break;
+
                         case 1:
                             RaceGender = "02";
                             break;
+
                         case 2:
                             RaceGender = "04";
                             break;
+
                         case 3:
                             RaceGender = "06";
                             break;
                     }
                     break;
+
                 case 1:
                     switch (race)
                     {
                         case 0:
                             RaceGender = "01";
                             break;
+
                         case 1:
                             RaceGender = "03";
                             break;
+
                         case 2:
                             RaceGender = "05";
                             break;
+
                         case 3:
                             RaceGender = "07";
                             break;
@@ -309,6 +321,7 @@ namespace TomatoProxyTool
             }
             return RaceGender;
         }
+
         public enum EnumEquipSlot
         {
             HEAD,
@@ -331,28 +344,34 @@ namespace TomatoProxyTool
             RIGHT = 14,
             SHOES = 16,*/
         }
-        string getb(Packet p, int offset)
+
+        private string getb(Packet p, int offset)
         {
             string s = p.GetByte((ushort)offset).ToString();
             if (s.Length < 2) s = "0" + s;
             return s;
         }
-        string getus(Packet p, int offset)
+
+        private string getus(Packet p, int offset)
         {
             return p.GetUShort((ushort)offset).ToString();
         }
-        string gets(Packet p, int offset)
+
+        private string gets(Packet p, int offset)
         {
             return p.GetShort((ushort)offset).ToString();
         }
-        string getui(Packet p, int offset)
+
+        private string getui(Packet p, int offset)
         {
             return p.GetUInt((ushort)offset).ToString();
         }
-        string geti(Packet p, int offset)
+
+        private string geti(Packet p, int offset)
         {
             return p.GetInt((ushort)offset).ToString();
         }
+
         private void PacketInfoBox_MouseUp(object sender, MouseEventArgs e)
         {
             try
@@ -389,14 +408,13 @@ namespace TomatoProxyTool
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // items need order
+            // the order of items need to follow the index
             List<String> presentsIp = new List<String> { "211.13.229.49:12200", "127.0.0.1:12006", "127.0.0.1:12006", "101.200.197.1:12006", };
 
             if (comboBox1.SelectedIndex < comboBox1.Items.Count)
             {
                 ServerIPBox.Text = presentsIp[comboBox1.SelectedIndex];
             }
-
         }
 
         private void Stop_Click_Click(object sender, EventArgs e)
@@ -490,6 +508,7 @@ namespace TomatoProxyTool
                 MessageBox.Show(ex.ToString());
             }
         }
+
         public void showmessage(string text)
         {
             MessageBox.Show(text);
@@ -513,6 +532,7 @@ namespace TomatoProxyTool
                     else if (type == "Server")
                         p = ProxyClientManager.Instance.packetContainerServer[index];
                     break;
+
                 case 1:
                     if (type == "Client")
                         p = pm.packetContainerClient[index];
@@ -552,6 +572,7 @@ namespace TomatoProxyTool
                     else if (type == "Server")
                         p = ProxyClientManager.Instance.packetContainerServer[index];
                     break;
+
                 case 1:
                     if (type == "Client")
                         p = pm.packetContainerClient[index];
@@ -660,6 +681,7 @@ namespace TomatoProxyTool
                 dat.Close();
             }
         }
+
         public void LoadItemPictCsv(byte[] buf)
         {
             string[] paras;
@@ -678,6 +700,7 @@ namespace TomatoProxyTool
                     Pictlines.Add(uint.Parse(paras[0]), line);
             }
         }
+
         public void LoadFaceCsv(byte[] buf)
         {
             string[] paras;
@@ -758,12 +781,10 @@ namespace TomatoProxyTool
 
         private void button5_Click(object sender, EventArgs e)
         {
-
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-
         }
 
         private void Form1_FormClosing(object sender, FormClosedEventArgs e)
@@ -783,8 +804,6 @@ namespace TomatoProxyTool
 
         private void autofollow_CheckedChanged(object sender, EventArgs e)
         {
-
         }
     }
 }
-
