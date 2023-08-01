@@ -126,36 +126,13 @@
             <param name="mapID"></param>
             <returns>是否胜利</returns>
         </member>
-        <member name="M:SagaMap.LevelLimit.LevelLimitManager.LoadLevelLimit">
+        <member name="M:SagaMap.Map.Distance(SagaDB.Actor.Actor,SagaDB.Actor.Actor)">
             <summary>
-            载入等级上限信息
+            计算两目标之间的距离
             </summary>
-        </member>
-        <member name="M:SagaMap.LevelLimit.LevelLimitManager.ReachLevelLimit(SagaDB.Actor.ActorPC)">
-            <summary>
-            有达成等级上限时
-            </summary>
-        </member>
-        <member name="M:SagaMap.LevelLimit.LevelLimitManager.StartLevelLimitWait">
-            <summary>
-            开始解冻当前的等级上限
-            </summary>
-        </member>
-        <member name="M:SagaMap.LevelLimit.LevelLimitManager.UpdataLevelLimit">
-            <summary>
-            等待结束后，等级上限提升
-            </summary>
-        </member>
-        <member name="M:SagaMap.LevelLimit.LevelLimitManager.SendReachInfo(SagaMap.Network.Client.MapClient)">
-            <summary>
-            发送满级圣塔发光信息
-            </summary>
-            <param name="client">玩家</param>
-        </member>
-        <member name="M:SagaMap.LevelLimit.LevelLimitManager.SavaLevelLimitInfo">
-            <summary>
-            保存等级上限
-            </summary>
+            <param name="sActor">目标1</param>
+            <param name="dActor">目标2</param>
+            <returns></returns>
         </member>
         <member name="M:SagaMap.Map.CalcDir(System.Int16,System.Int16,System.Int16,System.Int16)">
             <summary>
@@ -184,6 +161,16 @@
             <param name="Event"></param>
             <param name="Callbacktype">1=死亡事件 2=怪物技能使用时事件 3=怪物移动时事件 4=怪物攻击时事件 5=被攻击时事件</param>
             <returns></returns>
+        </member>
+        <member name="M:SagaMap.Map.CheckActorSkillIsMusic(System.Int16,System.Int16,System.Int16)">
+            <summary>
+            检测是否为演奏系技能（未完成）
+            </summary>
+        </member>
+        <member name="M:SagaMap.Map.CheckActorSkillIsHeal(System.Int16,System.Int16,System.Int16)">
+            <summary>
+            检测是否为恢复系技能
+            </summary>
         </member>
         <member name="T:SagaMap.Scripting.Event">
             <summary>
@@ -470,6 +457,20 @@
             <param name="title">消息标题</param>
             <example> Say(pc, 65535, "跟前輩學了很多東西$R;" +
                "$R您要一起學嗎？$R;", "初階冒險者");</example>
+        </member>
+        <member name="M:SagaMap.Scripting.Event.DailyStampIcon(SagaDB.Actor.ActorPC,System.Int32)">
+            <summary>
+            控制日印圖標
+            </summary>
+            <param name="pc">玩家</param>
+            <param name="type">0=隱藏,1=顯示</param>
+        </member>
+        <member name="M:SagaMap.Scripting.Event.StampADailyStamp(SagaDB.Actor.ActorPC,System.Int32)">
+            <summary>
+            蓋上日印
+            </summary>
+            <param name="pc">玩家</param>
+            <param name="type">1=蓋章,2=顯示已蓋印章</param>
         </member>
         <member name="M:SagaMap.Scripting.Event.Say(SagaDB.Actor.ActorPC,System.UInt32,System.UInt16,System.String)">
             <summary>
@@ -1394,6 +1395,19 @@
             </summary>
             <param name="pc">玩家</param>
         </member>
+        <member name="M:SagaMap.Scripting.Event.ItemMasterEnhance(SagaDB.Actor.ActorPC)">
+            <summary>
+            召唤潜在强化UI
+            </summary>
+            <param name="pc"></param>
+        </member>
+        <member name="M:SagaMap.Scripting.Event.ItemExchange(SagaDB.Actor.ActorPC,System.Int32)">
+            <summary>
+            召唤染色UI窗口
+            </summary>
+            <param name="pc">玩家对象</param>
+            <param name="exchangetype">交换类型 只允许1或2, 默认1</param>
+        </member>
         <member name="M:SagaMap.Scripting.Event.ItemFusion(SagaDB.Actor.ActorPC,System.String)">
             <summary>
             
@@ -2267,61 +2281,6 @@
             玩家商店标题
             </summary>
         </member>
-        <member name="F:SagaMap.Network.Client.MapClient.EnhancementType.Mastery">
-            <summary>
-            奥义
-            </summary>
-        </member>
-        <member name="F:SagaMap.Network.Client.MapClient.EnhancementType.Quintessence">
-            <summary>
-            神髓
-            </summary>
-        </member>
-        <member name="F:SagaMap.Network.Client.MapClient.EnhancementType.KingLife">
-            <summary>
-            王结晶 命
-            </summary>
-        </member>
-        <member name="F:SagaMap.Network.Client.MapClient.EnhancementType.KingPow">
-            <summary>
-            王结晶 力
-            </summary>
-        </member>
-        <member name="F:SagaMap.Network.Client.MapClient.EnhancementType.KingCri">
-            <summary>
-            王结晶 爆
-            </summary>
-        </member>
-        <member name="F:SagaMap.Network.Client.MapClient.EnhancementType.KingMag">
-            <summary>
-            王结晶 魔
-            </summary>
-        </member>
-        <member name="F:SagaMap.Network.Client.MapClient.EnhancementType.ProtectedUp">
-            <summary>
-            防爆 易成
-            </summary>
-        </member>
-        <member name="F:SagaMap.Network.Client.MapClient.EnhancementType.SuperCri">
-            <summary>
-            超强化 爆
-            </summary>
-        </member>
-        <member name="F:SagaMap.Network.Client.MapClient.EnhancementType.SuperLife">
-            <summary>
-            超强化 命
-            </summary>
-        </member>
-        <member name="F:SagaMap.Network.Client.MapClient.EnhancementType.SuperPow">
-            <summary>
-            超强化 力
-            </summary>
-        </member>
-        <member name="F:SagaMap.Network.Client.MapClient.EnhancementType.SuperMag">
-            <summary>
-            超强化 魔
-            </summary>
-        </member>
         <member name="M:SagaMap.Network.Client.MapClient.GetItem(System.UInt32)">
             <summary>
             取得玩家身上指定道具的信息
@@ -2433,6 +2392,17 @@
         <member name="P:SagaMap.Packets.Server.SSMG_PLAYER_EXP_MESSAGE.PEXP">
             <summary>
             Another Page EXP
+            </summary>
+        </member>
+        <member name="P:SagaMap.Packets.Server.SSMG_ITEM_MASTERENHANCE_RESULT.Result">
+            <summary>
+            0成功
+            -1錢不夠 
+            -2無可強化品 
+            -3無觸媒
+            -4不明原因失敗 
+            -5武具耐久不足 
+            -6無法獲得經驗
             </summary>
         </member>
         <member name="P:SagaMap.Packets.Server.SSMG_PARTNER_AI_DETAIL.Conditions_ID">
@@ -2719,7 +2689,7 @@
             GAME_SMSG_ITEM_MOVEERR8,";イベント中はアイテムを移動できません";
             </summary>
         </member>
-        <!-- 对于成员“P:SagaMap.Packets.Server.SSMG_ITEM_USE.result”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "P:SagaMap.Packets.Server.SSMG_ITEM_USE.result" -->
         <member name="P:SagaMap.Packets.Server.SSMG_LOGIN_ACK.TestEndTime">
             <summary>
             ゲストID期限　(1970年1月1日0時0分0秒からの秒数）08/01/11より 
@@ -2875,6 +2845,17 @@
         <member name="P:SagaMap.Packets.Server.SSMG_DEFWAR_STATE.Rate">
             <summary>
             百分比
+            </summary>
+        </member>
+        <member name="P:SagaMap.Packets.Server.SSMG_ITEM_ENHANCE_RESULT.Result">
+            <summary>
+            01 SUCCESS
+            00 FAILD
+            FF NO GOLD
+            FE ITEM IS NOT EXISTS
+            FD NO MERIATIAL
+            FC ????
+            FB EXCEPTION CAN NOT GET EXP
             </summary>
         </member>
         <member name="P:SagaMap.Packets.Server.SSMG_ITEM_PUT_ERROR.ErrorID">
@@ -3111,117 +3092,372 @@
             </summary>
             <param name="pc"></param>
         </member>
-        <member name="M:SagaMap.PC.StatusFactory.CalcStats(SagaDB.Actor.ActorPC)">
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.BlowAway">
             <summary>
-            计算素质属性能力
-            </summary>
-            <param name="pc"></param>
-        </member>
-        <member name="M:SagaMap.PC.StatusFactory.GetEnhanceBonus(SagaDB.Item.Item,System.Int32)">
-            <summary>
-            获取强化奖励数值
-            </summary>
-            <param name="item">道具本身</param>
-            <param name="Type">0: 生命 1: ATK DEF MATK 2: MDEF 3: 爆击相关</param>
-            <returns></returns>
-        </member>
-        <member name="M:SagaMap.PC.StatusFactory.ApplyIrisCardAbilities(SagaDB.Actor.ActorPC,SagaDB.Item.Item)">
-            <summary>
-            Calculate item's card ability values on PC
-            </summary>
-            <param name="pc"></param>
-            <param name="item"></param>
-        </member>
-        <member name="M:SagaMap.PC.StatusFactory.ApplyIrisRes(SagaDB.Actor.ActorPC)">
-            <summary>
-            Calculate item's card ability levels on PC and basic(original) RAs
-            </summary>
-            <param name="pc"></param>
-        </member>
-        <member name="M:SagaMap.PC.StatusFactory.UIStatusModRAs(SagaDB.Actor.ActorPC,System.Collections.Generic.Dictionary{SagaDB.Iris.AbilityVector,System.Int32})">
-            <summary>
-            Get all RAs for ui display
-            </summary>
-            <param name="irislevels"></param>
-            <returns></returns>
-        </member>
-        <member name="T:SagaMap.Skill.Additions.Global.Berserk">
-            <summary>
-            狂戰士
+            吹き飛んでください
             </summary>
         </member>
-        <member name="M:SagaMap.Skill.Additions.Global.DefaultPassiveSkill.#ctor(SagaDB.Skill.Skill,SagaDB.Actor.Actor,System.String,System.Boolean)">
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.Yukimori">
             <summary>
-            Constructor for Addition: Short Sword Mastery
-            </summary>
-            <param name="actor">Actor, which this addition get attached to</param>
-        </member>
-        <member name="T:SagaMap.Skill.Additions.Global.ExpUp">
-            <summary>
-            經驗值上升
+            黄泉還り
             </summary>
         </member>
-        <member name="M:SagaMap.Skill.Additions.Global.Invisible.#ctor(SagaDB.Skill.Skill,SagaDB.Actor.Actor,System.Int32)">
+        <member name="M:SagaMap.Skill.SkillDefinations.Global.MostThingsBurn.TryCast(SagaDB.Actor.ActorPC,SagaDB.Actor.Actor,SagaMap.SkillArg)">
             <summary>
-            隐身，每2秒会向周围队友发送自己的位置（显示特效）
-            </summary>
-            <param name="skill"></param>
-            <param name="actor"></param>
-            <param name="lifetime">持续时间</param>
-        </member>
-        <member name="T:SagaMap.Skill.Additions.Global.Knowledge">
-            <summary>
-            知識用的Buff
+            大抵のモノは燃えます☆（女儿用火属性附加）
             </summary>
         </member>
-        <member name="F:SagaMap.Skill.Additions.Global.Knowledge.MobTypes">
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.ContinuousShooting">
             <summary>
-            怪物類型
+            連続射撃いっきますよ～♪
             </summary>
         </member>
-        <member name="T:SagaMap.Skill.Additions.Global.SomeTypeAvoUp">
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.SoBusy">
             <summary>
-            當怪物為某系列時，迴避率提升
+            ビビってなんか、いないんだから！(警戒模板)
             </summary>
         </member>
-        <member name="F:SagaMap.Skill.Additions.Global.SomeTypeAvoUp.MobTypes">
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.YouCanPraiseMore">
             <summary>
-            怪物類型
+            もっと褒めてもいいのよ！
             </summary>
         </member>
-        <member name="T:SagaMap.Skill.Additions.Global.SomeTypeDamUp">
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.ThePowerOfLoveMayle">
             <summary>
-            當怪物為某系列時，迴避率提升
+            想いの力・メイリー
             </summary>
         </member>
-        <member name="F:SagaMap.Skill.Additions.Global.SomeTypeDamUp.MobTypes">
+        <member name="M:SagaMap.Skill.SkillDefinations.Global.AllShot.TryCast(SagaDB.Actor.ActorPC,SagaDB.Actor.Actor,SagaMap.SkillArg)">
             <summary>
-            怪物類型
+            一斉掃射いっきますよ～♪
             </summary>
         </member>
-        <member name="T:SagaMap.Skill.Additions.Global.SomeTypeHitUp">
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.StarLove">
             <summary>
-            當怪物為某系列時，命中率提升
+            フォートレスサークル
             </summary>
         </member>
-        <member name="F:SagaMap.Skill.Additions.Global.SomeTypeHitUp.MobTypes">
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.Camp">
             <summary>
-            怪物類型
+            露营
             </summary>
         </member>
-        <member name="T:SagaMap.Skill.Additions.Global.AttackRhythm">
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.ElementStorm">
             <summary>
-            居合姿态
+            元素风暴,各属性风暴通用技能
+            サンダーストーム(闪电风暴)
+            アクアストーム(水瓶风暴)
+            アースストーム(大地风暴)
+            ファイアストーム(烈焰风暴)
             </summary>
         </member>
-        <member name="T:SagaMap.Skill.Additions.Global.IaiMode">
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.Fish">
             <summary>
-            居合姿态
+            钓鱼
             </summary>
         </member>
-        <member name="T:SagaMap.Skill.Additions.Global.SnipeMode">
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.Groove">
             <summary>
-            居合姿态
+            子弹
+            </summary>
+        </member>
+        <member name="M:SagaMap.Skill.SkillDefinations.Global.Groove.Activator.CalcFactor(System.Byte)">
+            <summary>
+            计算伤害加成
+            </summary>
+            <param name="level">技能等级</param>
+            <returns>伤害加成</returns>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.Trap">
+            <summary>
+            陷阱的基礎類別
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.Trap.PosType">
+            <summary>
+            座標跟誰相同
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.DarkSun">
+            <summary>
+            サンダークランク
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.MachineNurseAria">
+            <summary>
+            機銃砲・マシンナーズアリア
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.Emission">
+            <summary>
+            エミッション
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.LikeAPie">
+            <summary>
+            ぱぴーみたいにどーん！
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.HowDidYouDoIt">
+            <summary>
+            がおーっ！ってろーきーがしてたの！ (大車輪模板)
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.YouLikeMe">
+            <summary>
+            ぱぴーみたいにどーん！
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.ImSoAngry">
+            <summary>
+            まみーみたいに怒るよ！
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.EcoDay">
+            <summary>
+            こんどはエコの番！
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.Thousand">
+            <summary>
+            ▲伊邪那美式抜刀術　千斬り
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.TrialsInHeavenAndHell">
+            <summary>
+            天獄の試練
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.DarkWorldWind">
+            <summary>
+            ダークワールウインド
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.ComeOn">
+            <summary>
+            もえつきろ～……
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.DarkMist">
+            <summary>
+            ダークミスト
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.Accept">
+            <summary>
+            受け止めてくださる？
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.LeaveIt">
+            <summary>
+            お仕置き、だよ
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.TheRevelationOfKuo">
+            <summary>
+            九尾の霊験☆復刻版
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.GoodByeRendezvous">
+            <summary>
+            さよならランデヴー
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.NoFlashPlayer">
+            <summary>
+            ホーリーフェザー
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.ShinStormSword">
+            <summary>
+            真?旋風剣！
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.Urayahachinototo">
+            <summary>
+            氷剣・ユルヤカヒノミコト
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.DontCareAnymore">
+            <summary>
+            もう、はなさないの
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.Kirieredison">
+            <summary>
+            聖印・キリエエレイソン
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.PleaseTakeCareOfMe">
+            <summary>
+            お引取り下さい
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.TakeCareOfYou">
+            <summary>
+            手当ていたします。
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.ISupport">
+            <summary>
+            私が支えます（坚固光环）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.Demolition">
+            <summary>
+            デモリッション
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.TimeDeath">
+            <summary>
+            タイムデストラクション
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.DivineProtection">
+            <summary>
+            ホーリーフェザー
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.IkspiariArmusing">
+            <summary>
+            イクスパンジアーム
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.Joker">
+            <summary>
+            小丑
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.JokerArt">
+            <summary>
+            小丑的寂寞
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.JokerDelay">
+            <summary>
+            小丑延迟取消
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.JokerStrike">
+            <summary>
+             小丑连击
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.JokerStyle">
+            <summary>
+             ジョーカースタイル
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.JokerNone">
+            <summary>
+            小丑
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.JokerTwoHead">
+            <summary>
+            Joker_2
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.StyleChange">
+            <summary>
+            ホーリーフェザー
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.EventMoveSkill">
+            <summary>
+            移動技能
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.AtkUpByPt">
+            <summary>
+            團結力量（コンバインフォース）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.ElementAddUp">
+            <summary>
+            各種屬性魂
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.ElementLimitUp">
+            <summary>
+            各屬性守護(各属性契约)
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.FoodFighter">
+            <summary>
+            提升飽食度（フードファイター）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.RiskAversion">
+            <summary>
+            迴避危險（危険回避）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.Soul">
+            <summary>
+            各種魂
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.TwoHandGunMastery">
+            <summary>
+            雙手槍修練（ツーハンドスピアマスタリー）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.PetCastSkill">
+            <summary>
+            讓寵物使用指定技能
+            </summary>
+        </member>
+        <member name="M:SagaMap.Skill.SkillDefinations.Global.PetCastSkill.#ctor(System.UInt32,System.String)">
+            <summary>
+            初始化
+            </summary>
+            <param name="NextSkillID">寵物技能ID</param>
+            <param name="MobType">寵物種類</param>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.SomeKindDamUp">
+            <summary>
+            各種種族傷害增加
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.SpeedUpSkill">
+            <summary>
+            點火
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.SumMob">
+            <summary>
+            招換怪物
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.SumMobCastSkill">
+            <summary>
+            招換怪物之後使用技能
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.SumSlaveMob">
+            <summary>
+            王的招換
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.MCharge3">
+            <summary>
+            亢奮一踢
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.FullerMaster">
+            <summary>
+            ブレイドマスタリー
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.FullWeaponMaster">
+            <summary>
+            ブレイドマスタリー
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Global.A_T_PJoint">
+            <summary>
+             攻擊援手（アタックアシスト）
             </summary>
         </member>
         <member name="T:SagaMap.Skill.SkillDefinations.BladeMaster.StormSword">
@@ -3494,139 +3730,6 @@
             拔刀術（ストライクブロウ）
             </summary>
         </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Global.Camp">
-            <summary>
-            露营
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Global.ElementBless">
-            <summary>
-            各屬性祝福
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Global.ElementStorm">
-            <summary>
-            元素风暴,各属性风暴通用技能
-            サンダーストーム(闪电风暴)
-            アクアストーム(水瓶风暴)
-            アースストーム(大地风暴)
-            ファイアストーム(烈焰风暴)
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Global.Fish">
-            <summary>
-            钓鱼
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Global.Groove">
-            <summary>
-            子弹
-            </summary>
-        </member>
-        <member name="M:SagaMap.Skill.SkillDefinations.Global.Groove.Activator.CalcFactor(System.Byte)">
-            <summary>
-            计算伤害加成
-            </summary>
-            <param name="level">技能等级</param>
-            <returns>伤害加成</returns>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Global.Trap">
-            <summary>
-            陷阱的基礎類別
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Global.Trap.PosType">
-            <summary>
-            座標跟誰相同
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Global.DarkSun">
-            <summary>
-            サンダークランク
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Global.EventMoveSkill">
-            <summary>
-            移動技能
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Global.AtkUpByPt">
-            <summary>
-            團結力量（コンバインフォース）
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Global.ElementAddUp">
-            <summary>
-            各種屬性魂
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Global.ElementLimitUp">
-            <summary>
-            各屬性守護
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Global.FoodFighter">
-            <summary>
-            提升飽食度（フードファイター）
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Global.RiskAversion">
-            <summary>
-            迴避危險（危険回避）
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Global.Soul">
-            <summary>
-            各種魂
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Global.TwoHandGunMastery">
-            <summary>
-            雙手槍修練（ツーハンドスピアマスタリー）
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Global.PetCastSkill">
-            <summary>
-            讓寵物使用指定技能
-            </summary>
-        </member>
-        <member name="M:SagaMap.Skill.SkillDefinations.Global.PetCastSkill.#ctor(System.UInt32,System.String)">
-            <summary>
-            初始化
-            </summary>
-            <param name="NextSkillID">寵物技能ID</param>
-            <param name="MobType">寵物種類</param>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Global.SomeKindDamUp">
-            <summary>
-            各種種族傷害增加
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Global.SumMob">
-            <summary>
-            招換怪物
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Global.SumMobCastSkill">
-            <summary>
-            招換怪物之後使用技能
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Global.SumSlaveMob">
-            <summary>
-            王的招換
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Global.MCharge3">
-            <summary>
-            亢奮一踢
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Global.A_T_PJoint">
-            <summary>
-             攻擊援手（アタックアシスト）
-            </summary>
-        </member>
         <member name="T:SagaMap.Skill.SkillDefinations.Knight.Appeal">
             <summary>
             一騎當千（一騎当千）
@@ -3790,7 +3893,7 @@
         </member>
         <member name="T:SagaMap.Skill.SkillDefinations.DarkStalker.HpLostDamUp">
             <summary>
-            公平交易（ブラッディウエポン）
+            血色战刃
             </summary>
         </member>
         <member name="T:SagaMap.Skill.SkillDefinations.DarkStalker.LifeSteal">
@@ -4317,121 +4420,30 @@
             招喚怪物並且使用技能
             </summary>
         </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Fencer.ShieldMastery">
+        <member name="T:SagaMap.Skill.SkillDefinations.Monster.ConvolutionMob">
             <summary>
-            盾術修練（シールドマスタリー）
+            大车轮 (大車輪)怪物用
             </summary>
         </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Fencer.AstuteStab">
+        <member name="T:SagaMap.Skill.SkillDefinations.Monster.MobNoHeal">
             <summary>
-            刺擊防禦術（ディフェンス・スタブ）
+            再生技能无效化
             </summary>
         </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Fencer.ChargeStrike">
+        <member name="T:SagaMap.Skill.SkillDefinations.Monster.ElementNull">
             <summary>
-            チャージストライク
+            属性攻击无效
             </summary>
         </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Fencer.GuardUp">
+        <member name="T:SagaMap.Skill.SkillDefinations.Monster.ZillionBladeMob">
             <summary>
-            提升防禦力（防御力上昇）
+            ジリオンブレイド
             </summary>
         </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Fencer.LightningSpear">
+        <member name="T:SagaMap.Skill.SkillDefinations.Monster.BooooomMob">
             <summary>
-            ライトニングスピア
+            大车轮 (大車輪)怪物用
             </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Fencer.MobDefUpSelf">
-            <summary>
-            重裝鎧化（ディフェンス・バースト）
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Fencer.SpearCancel">
-            <summary>
-            矛之達人 スピアディレイキャンセル
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.ISkill">
-            <summary>
-            技能定义接口
-            </summary>
-        </member>
-        <member name="M:SagaMap.Skill.SkillDefinations.ISkill.Proc(SagaDB.Actor.Actor,SagaDB.Actor.Actor,SagaMap.SkillArg,System.Byte)">
-            <summary>
-            技能处理过程
-            </summary>
-            <param name="sActor">源Actor</param>
-            <param name="dActor">目标Actor</param>
-            <param name="args">技能参数</param>
-            <param name="level">技能等级</param>
-        </member>
-        <member name="M:SagaMap.Skill.SkillDefinations.ISkill.TryCast(SagaDB.Actor.ActorPC,SagaDB.Actor.Actor,SagaMap.SkillArg)">
-            <summary>
-            尝试释放某技能，并返回结果
-            </summary>
-            <param name="sActor">源Actor</param>
-            <param name="dActor">目标Actor</param>
-            <returns>0表示可释放，小于0则为错误代码</returns>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Marionette.MExclamation">
-            <summary>
-            尖叫
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Marionette.MBokeboke">
-            <summary>
-            汪~~汪~~
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Marionette.MMirror">
-            <summary>
-            小丘比分身
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Marionette.MMirrorSkill">
-            <summary>
-            自爆
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Marionette.MDarkCrosscircle">
-            <summary>
-            惡夢
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Marionette.MDarkCrosscircleSeq">
-            <summary>
-            惡夢[接續技能]
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Marionette.HPRecovery">
-            <summary>
-            木偶時的HP自然恢復
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Marionette.MPRecovery">
-            <summary>
-            木偶時的MP自然恢復
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Marionette.SPRecovery">
-            <summary>
-            木偶時的SP自然恢復
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.MobISkill">
-            <summary>
-            技能定义接口
-            </summary>
-        </member>
-        <member name="M:SagaMap.Skill.SkillDefinations.MobISkill.Proc(SagaDB.Actor.Actor,SagaDB.Actor.Actor,SagaMap.SkillArg,System.Byte)">
-            <summary>
-            技能处理过程
-            </summary>
-            <param name="sActor">源Actor</param>
-            <param name="dActor">目标Actor</param>
-            <param name="args">技能参数</param>
-            <param name="level">技能等级</param>
         </member>
         <member name="T:SagaMap.Skill.SkillDefinations.Monster.Curse">
             <summary>
@@ -4467,6 +4479,13 @@
             <summary>
             旋風劍（旋風剣）
             </summary>
+        </member>
+        <member name="M:SagaMap.Skill.SkillDefinations.Monster.WaterGroove.Activator.CalcFactor(System.Byte)">
+            <summary>
+            计算伤害加成
+            </summary>
+            <param name="level">技能等级</param>
+            <returns>伤害加成</returns>
         </member>
         <member name="T:SagaMap.Skill.SkillDefinations.Monster.MobParalyzeblow">
             <summary>
@@ -4803,6 +4822,11 @@
             アニマドレイン
             </summary>
         </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Monster.MobElementBless">
+            <summary>
+            怪物用各屬性祝福
+            </summary>
+        </member>
         <member name="T:SagaMap.Skill.SkillDefinations.Monster.AlterFate">
             <summary>
             オールターフェイト
@@ -4810,7 +4834,12 @@
         </member>
         <member name="T:SagaMap.Skill.SkillDefinations.Monster.SomaMirage">
             <summary>
-            ソーマミラージュ (索玛幻影?)
+            ソーマミラージュ (索玛幻影?)(无属性抗性100%)
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Monster.HumanSeeleGuerrilla">
+            <summary>
+            DEM龙用灵魂审判
             </summary>
         </member>
         <member name="T:SagaMap.Skill.SkillDefinations.Monster.Mutation">
@@ -4856,6 +4885,322 @@
         <member name="T:SagaMap.Skill.SkillDefinations.Monster.MobElementRandcircleSeq">
             <summary>
             各種精靈的憤怒 [接續技能]
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Harvest.TwistedPlant">
+            <summary>
+            ツイステッドプラント
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Harvest.Bounce">
+            <summary>
+            黒薔薇の棘
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Harvest.CreateNeko">
+            <summary>
+            クリエイトネコグルミ
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Harvest.MistletoeShooting">
+            <summary>
+            槲寄生射击(ヤドリギショット)
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Harvest.MistletoeShootingSEQ">
+            <summary>
+            槲寄生射击(ヤドリギショット)后段
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Harvest.PlantField">
+            <summary>
+            プラントエッジ
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Harvest.Twine">
+            <summary>
+            ハーヴェスト
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Harvest.HarvestMaster">
+            <summary>
+            ハーヴェストマスター
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Guardian.Blocking">
+            <summary>
+            ブロッキング
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Guardian.FortressCircle">
+            <summary>
+            フォートレスサークル
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Guardian.FortressCircleSEQ">
+            <summary>
+            フォートレスサークル
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Guardian.HatredUp">
+            <summary>
+            敵対心上昇
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Guardian.ReflectionShield">
+            <summary>
+            リフレクトシールド
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Guardian.SpiralSpear">
+            <summary>
+            スパイラルスピア
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Guardian.StrongBody">
+            <summary>
+            ストロングボディ
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Astralist.Astralist">
+            <summary>
+            ¥¢¥¹¥È¥é¥ê¥¹¥È
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Astralist.MPCommunion">
+            <summary>
+            MP¥³¥ß¥å¥Ë¥ª¥ó
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Astralist.Relement">
+            <summary>
+            集中 コンセントレート
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Astralist.TranceBody">
+            <summary>
+            トランスボディ
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Astralist.YugenKeiyaku">
+            <summary>
+            ÓÄÐþÖ®ÆõÔ¼£º½£
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Fencer.ShieldMastery">
+            <summary>
+            盾術修練（シールドマスタリー）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Fencer.AstuteStab">
+            <summary>
+            刺擊防禦術（ディフェンス・スタブ）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Fencer.ChargeStrike">
+            <summary>
+            チャージストライク
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Fencer.GuardUp">
+            <summary>
+            提升防禦力（防御力上昇）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Fencer.LightningSpear">
+            <summary>
+            ライトニングスピア
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Fencer.MobDefUpSelf">
+            <summary>
+            重裝鎧化（ディフェンス・バースト）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Fencer.SpearCancel">
+            <summary>
+            矛之達人 スピアディレイキャンセル
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.ISkill">
+            <summary>
+            技能定义接口
+            </summary>
+        </member>
+        <member name="M:SagaMap.Skill.SkillDefinations.ISkill.Proc(SagaDB.Actor.Actor,SagaDB.Actor.Actor,SagaMap.SkillArg,System.Byte)">
+            <summary>
+            技能处理过程
+            </summary>
+            <param name="sActor">源Actor</param>
+            <param name="dActor">目标Actor</param>
+            <param name="args">技能参数</param>
+            <param name="level">技能等级</param>
+        </member>
+        <member name="M:SagaMap.Skill.SkillDefinations.ISkill.TryCast(SagaDB.Actor.ActorPC,SagaDB.Actor.Actor,SagaMap.SkillArg)">
+            <summary>
+            尝试释放某技能，并返回结果
+            </summary>
+            <param name="sActor">源Actor</param>
+            <param name="dActor">目标Actor</param>
+            <returns>0表示可释放，小于0则为错误代码</returns>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Marionette.MExclamation">
+            <summary>
+            尖叫
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Marionette.MBokeboke">
+            <summary>
+            汪~~汪~~
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Marionette.MMirror">
+            <summary>
+            小丘比分身
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Marionette.MMirrorSkill">
+            <summary>
+            自爆
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Marionette.MDarkCrosscircle">
+            <summary>
+            惡夢
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Marionette.MDarkCrosscircleSeq">
+            <summary>
+            惡夢[接續技能]
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Marionette.HPRecovery">
+            <summary>
+            木偶時的HP自然恢復
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Marionette.MPRecovery">
+            <summary>
+            木偶時的MP自然恢復
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Marionette.SPRecovery">
+            <summary>
+            木偶時的SP自然恢復
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.MobISkill">
+            <summary>
+            技能定义接口
+            </summary>
+        </member>
+        <member name="M:SagaMap.Skill.SkillDefinations.MobISkill.Proc(SagaDB.Actor.Actor,SagaDB.Actor.Actor,SagaMap.SkillArg,System.Byte)">
+            <summary>
+            技能处理过程
+            </summary>
+            <param name="sActor">源Actor</param>
+            <param name="dActor">目标Actor</param>
+            <param name="args">技能参数</param>
+            <param name="level">技能等级</param>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.HellFire">
+            <summary>
+            地狱之火
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.ApiBullet">
+            <summary>
+            徹甲彈（徹甲弾）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.BulletDance">
+            <summary>
+            亂槍掃射（バレットダンス）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.BurstShot">
+            <summary>
+            3連發精密射擊（バーストショット）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.CanisterShot">
+            <summary>
+            散彈（散弾）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.ChargeShot">
+            <summary>
+            烈炎射擊（チャージショット）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.ClothCrest">
+            <summary>
+            怒髮衝冠（クロスクレスト）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.CQB">
+            <summary>
+            近身戰鬥修練（CQB）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.FastDraw">
+            <summary>
+            迅雷槍法（ファーストドロー）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.GrenadeShot">
+            <summary>
+            榴彈射擊（グレネードショット）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.GrenadeSlow">
+            <summary>
+            煙幕彈射擊（スロウグレネード）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.GrenadeStan">
+            <summary>
+             催淚彈射擊（催涙グレネード）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.GunCancel">
+            <summary>
+            刷槍之達人（ガンディレイキャンセル）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.GunHitUp">
+            <summary>
+            雙手槍命中率提升（２丁拳銃命中率上昇）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.OverRange">
+            <summary>
+            射程延長（オーバーレンジ）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.PluralityShot">
+            <summary>
+            散彈射擊（バラージショット）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.PrecisionFire">
+            <summary>
+            精密射擊（精密射撃）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.RifleGunDamUp">
+            <summary>
+            步槍射擊練習（ライフルマスタリー）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.StunShot">
+            <summary>
+            昏厥射擊（スタンショット）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.VitalShot">
+            <summary>
+            重點射擊（バイタルショット）
             </summary>
         </member>
         <member name="T:SagaMap.Skill.SkillDefinations.Farmasist.Cultivation">
@@ -5286,6 +5631,11 @@
         <member name="T:SagaMap.Skill.SkillDefinations.Explorer.FakeDeath">
             <summary>
             裝死（死んだふり）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Explorer.FascinationBox">
+            <summary>
+            魅惑之箱（ファシネイションボックス）
             </summary>
         </member>
         <member name="T:SagaMap.Skill.SkillDefinations.Explorer.InsAvoUp">
@@ -5858,24 +6208,9 @@
             鞭之狂亂奏章（ウィップフロリッシュ）
             </summary>
         </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Harvest.Bounce">
+        <member name="T:SagaMap.Skill.SkillDefinations.Maestro.LimitExceed">
             <summary>
-            黒薔薇の棘
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Harvest.MistletoeShooting">
-            <summary>
-            槲寄生射击(ヤドリギショット)
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Harvest.MistletoeShootingSEQ">
-            <summary>
-            槲寄生射击(ヤドリギショット)后段
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Harvest.PlantField">
-            <summary>
-            プラントエッジ
+            レールガン
             </summary>
         </member>
         <member name="T:SagaMap.Skill.SkillDefinations.Maestro.RobotLaser">
@@ -5891,6 +6226,41 @@
         <member name="T:SagaMap.Skill.SkillDefinations.Royaldealer.AtkArm">
             <summary>
             ディーラーの手腕
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Royaldealer.DealerSkill">
+            <summary>
+            ブレイドマスタリー
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Royaldealer.FalseMoney">
+            <summary>
+            假币（フォールスマネー）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Royaldealer.PerfectRiotStamp">
+            <summary>
+            ストレートフラッシュ
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Royaldealer.StraightFlushSEQ">
+            <summary>
+            ストレートフラッシュ后续
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Royaldealer.StraightFlush">
+            <summary>
+            ストレートフラッシュ
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Royaldealer.LuckyGoddess">
+            <summary>
+            ブレイドマスタリー
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Stryder.ArtFullTrap">
+            <summary>
+            アートフルトラップ
             </summary>
         </member>
         <member name="T:SagaMap.Skill.SkillDefinations.Stryder.PillageAct">
@@ -6113,101 +6483,6 @@
             狂放舞蹈（ワイルドダンス）
             </summary>
         </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.ApiBullet">
-            <summary>
-            徹甲彈（徹甲弾）
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.BulletDance">
-            <summary>
-            亂槍掃射（バレットダンス）
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.BurstShot">
-            <summary>
-            3連發精密射擊（バーストショット）
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.CanisterShot">
-            <summary>
-            散彈（散弾）
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.ChargeShot">
-            <summary>
-            烈炎射擊（チャージショット）
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.ClothCrest">
-            <summary>
-            怒髮衝冠（クロスクレスト）
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.CQB">
-            <summary>
-            近身戰鬥修練（CQB）
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.FastDraw">
-            <summary>
-            迅雷槍法（ファーストドロー）
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.GrenadeShot">
-            <summary>
-            榴彈射擊（グレネードショット）
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.GrenadeSlow">
-            <summary>
-            煙幕彈射擊（スロウグレネード）
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.GrenadeStan">
-            <summary>
-             催淚彈射擊（催涙グレネード）
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.GunCancel">
-            <summary>
-            刷槍之達人（ガンディレイキャンセル）
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.GunHitUp">
-            <summary>
-            雙手槍命中率提升（２丁拳銃命中率上昇）
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.OverRange">
-            <summary>
-            射程延長（オーバーレンジ）
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.PluralityShot">
-            <summary>
-            散彈射擊（バラージショット）
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.PrecisionFire">
-            <summary>
-            精密射擊（精密射撃）
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.RifleGunDamUp">
-            <summary>
-            步槍射擊練習（ライフルマスタリー）
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.StunShot">
-            <summary>
-            昏厥射擊（スタンショット）
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Gunner.VitalShot">
-            <summary>
-            重點射擊（バイタルショット）
-            </summary>
-        </member>
         <member name="T:SagaMap.Skill.SkillDefinations.Eraser.Demacia">
             <summary>
             マーシレスシャドウ
@@ -6290,7 +6565,7 @@
         </member>
         <member name="T:SagaMap.Skill.SkillDefinations.Gladiator.Sewaibu">
             <summary>
-            サヴァイブ
+            サヴァイブ,GLJOB35
             </summary>
         </member>
         <member name="T:SagaMap.Skill.SkillDefinations.Gladiator.SpeedHit">
@@ -6313,41 +6588,6 @@
             ジリオンブレイド
             </summary>
         </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Guardian.Blocking">
-            <summary>
-            ブロッキング
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Guardian.FortressCircle">
-            <summary>
-            フォートレスサークル
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Guardian.FortressCircleSEQ">
-            <summary>
-            フォートレスサークル
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Guardian.HatredUp">
-            <summary>
-            敵対心上昇
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Guardian.ReflectionShield">
-            <summary>
-            リフレクトシールド
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Guardian.SpiralSpear">
-            <summary>
-            スパイラルスピア
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Guardian.StrongBody">
-            <summary>
-            ストロングボディ
-            </summary>
-        </member>
         <member name="T:SagaMap.Skill.SkillDefinations.Hawkeye.EagleEye">
             <summary>
             ホークアイ
@@ -6358,6 +6598,11 @@
             シューティングマスタリー
             </summary>
         </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Hawkeye.ImpactShot">
+            <summary>
+            ジリオンブレイド
+            </summary>
+        </member>
         <member name="T:SagaMap.Skill.SkillDefinations.Hawkeye.MissRevenge">
             <summary>
             リベンジトリガー
@@ -6366,6 +6611,11 @@
         <member name="T:SagaMap.Skill.SkillDefinations.Hawkeye.Nooheito">
             <summary>
             ノーヘイト
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Hawkeye.TimeBombSEQ">
+            <summary>
+            ヴェノムブラスト [后续技能]
             </summary>
         </member>
         <member name="T:SagaMap.Skill.SkillDefinations.Breeder.Akurobattoibeijon">
@@ -6496,6 +6746,11 @@
         <member name="T:SagaMap.Skill.SkillDefinations.Vates.Healing">
             <summary>
             ヒーリング
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.Vates.Resurrection">
+            <summary>
+            复活术
             </summary>
         </member>
         <member name="T:SagaMap.Skill.SkillDefinations.Vates.StatusRegi">
@@ -6825,7 +7080,7 @@
         </member>
         <member name="T:SagaMap.Skill.SkillDefinations.Bard.Classic">
             <summary>
-            古典演奏（クラシック）
+            流行演奏（ポップス）
             </summary>
         </member>
         <member name="T:SagaMap.Skill.SkillDefinations.Bard.DeadMarch">
@@ -6880,7 +7135,7 @@
         </member>
         <member name="T:SagaMap.Skill.SkillDefinations.Bard.RockAndRoll">
             <summary>
-            樂與怒演奏（ロックンロール）
+            摇滚演奏
             </summary>
         </member>
         <member name="T:SagaMap.Skill.SkillDefinations.Bard.Samba">
@@ -7166,26 +7421,6 @@
             活幽靈（ドッペルゲンガー）
             </summary>
         </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Astralist.Astralist">
-            <summary>
-            アストラリスト
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Astralist.MPCommunion">
-            <summary>
-            MPコミュニオン
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Astralist.TranceBody">
-            <summary>
-            トランスボディ
-            </summary>
-        </member>
-        <member name="T:SagaMap.Skill.SkillDefinations.Astralist.YugenKeiyaku">
-            <summary>
-            幽玄之契约：剑
-            </summary>
-        </member>
         <member name="T:SagaMap.Skill.SkillDefinations.Cardinal.AngelRing">
             <summary>
             エンジェルリング
@@ -7198,7 +7433,7 @@
         </member>
         <member name="T:SagaMap.Skill.SkillDefinations.Cardinal.Cardinal">
             <summary>
-            Cardinal カーディナル 
+            Cardinal ¥«©`¥Ç¥£¥Ê¥ë 
             </summary>
         </member>
         <member name="T:SagaMap.Skill.SkillDefinations.Cardinal.CureTheUndead">
@@ -7266,9 +7501,59 @@
             灵魂狩猎(ソウルハント)
             </summary>
         </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.SoulTaker.Chasm">
+            <summary>
+            深渊
+            </summary>
+        </member>
         <member name="T:SagaMap.Skill.SkillDefinations.SoulTaker.Dammnation">
             <summary>
             3431 ダムネイション (Dammnation) 天谴
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.SunFlowerAdditions.Adoramus">
+            <summary>
+            赞歌（Ragnarok）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.SunFlowerAdditions.Assumptio">
+            <summary>
+            圣母之祈福(Ragnarok)
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.SunFlowerAdditions.EquipChange">
+            <summary>
+            巫婆长袍切换（Ragnarok）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.SunFlowerAdditions.HighHeal">
+            <summary>
+            高级治愈（Ragnarok）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.SunFlowerAdditions.HolyLight">
+            <summary>
+            神圣之光（Ragnarok）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.SunFlowerAdditions.Judex">
+            <summary>
+            审判(Ragnarok)
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.SunFlowerAdditions.KyrieEleison">
+            <summary>
+            霸邪之阵（Ragnarok）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.SunFlowerAdditions.Oratio">
+            <summary>
+            祷告（Ragnarok）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.SkillDefinations.SunFlowerAdditions.TurnUndead">
+            <summary>
+            转生术（Ragnarok）
             </summary>
         </member>
         <member name="T:SagaMap.Skill.SkillDefinations.TestingAddition.MentalStrength">
@@ -7279,6 +7564,85 @@
         <member name="T:SagaMap.Skill.SkillDefinations.Weapon.MinCriRateUp">
             <summary>
             クリティカル率アップ（小）
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.Additions.Global.Berserk">
+            <summary>
+            狂戰士
+            </summary>
+        </member>
+        <member name="M:SagaMap.Skill.Additions.Global.DefaultPassiveSkill.#ctor(SagaDB.Skill.Skill,SagaDB.Actor.Actor,System.String,System.Boolean)">
+            <summary>
+            Constructor for Addition: Short Sword Mastery
+            </summary>
+            <param name="actor">Actor, which this addition get attached to</param>
+        </member>
+        <member name="T:SagaMap.Skill.Additions.Global.ExpUp">
+            <summary>
+            經驗值上升
+            </summary>
+        </member>
+        <member name="M:SagaMap.Skill.Additions.Global.Invisible.#ctor(SagaDB.Skill.Skill,SagaDB.Actor.Actor,System.Int32)">
+            <summary>
+            隐身，每2秒会向周围队友发送自己的位置（显示特效）
+            </summary>
+            <param name="skill"></param>
+            <param name="actor"></param>
+            <param name="lifetime">持续时间</param>
+        </member>
+        <member name="T:SagaMap.Skill.Additions.Global.Knowledge">
+            <summary>
+            知識用的Buff
+            </summary>
+        </member>
+        <member name="F:SagaMap.Skill.Additions.Global.Knowledge.MobTypes">
+            <summary>
+            怪物類型
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.Additions.Global.SomeTypeAvoUp">
+            <summary>
+            當怪物為某系列時，迴避率提升
+            </summary>
+        </member>
+        <member name="F:SagaMap.Skill.Additions.Global.SomeTypeAvoUp.MobTypes">
+            <summary>
+            怪物類型
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.Additions.Global.SomeTypeDamUp">
+            <summary>
+            當怪物為某系列時，迴避率提升
+            </summary>
+        </member>
+        <member name="F:SagaMap.Skill.Additions.Global.SomeTypeDamUp.MobTypes">
+            <summary>
+            怪物類型
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.Additions.Global.SomeTypeHitUp">
+            <summary>
+            當怪物為某系列時，命中率提升
+            </summary>
+        </member>
+        <member name="F:SagaMap.Skill.Additions.Global.SomeTypeHitUp.MobTypes">
+            <summary>
+            怪物類型
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.Additions.Global.AttackRhythm">
+            <summary>
+            居合姿态
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.Additions.Global.IaiMode">
+            <summary>
+            居合姿态
+            </summary>
+        </member>
+        <member name="T:SagaMap.Skill.Additions.Global.SnipeMode">
+            <summary>
+            居合姿态
             </summary>
         </member>
         <member name="M:SagaMap.Skill.SkillHandler.CheckBuffForDamage(SagaDB.Actor.Actor,SagaDB.Actor.Actor,System.Int32)">
@@ -7376,6 +7740,7 @@
             <param name="eleValue">元素值</param>
             <param name="ATKBonus">倍率</param>
             <param name="ignore">無視防禦率</param>
+            
         </member>
         <member name="M:SagaMap.Skill.SkillHandler.CalcDamage(System.Boolean,SagaDB.Actor.Actor,SagaDB.Actor.Actor,SagaMap.SkillArg,SagaMap.Skill.SkillHandler.DefType,SagaLib.Elements,System.Int32,System.Single,System.Single)">
             <summary>
@@ -7392,7 +7757,7 @@
             <param name="ignore">無視防禦率</param>
             <returns>傷害</returns>
         </member>
-        <member name="M:SagaMap.Skill.SkillHandler.CalcDamage(System.Boolean,SagaDB.Actor.Actor,SagaDB.Actor.Actor,SagaMap.SkillArg,SagaMap.Skill.SkillHandler.DefType,SagaLib.Elements,System.Int32,System.Single,SagaMap.Skill.SkillHandler.AttackResult@,System.Single)">
+        <member name="M:SagaMap.Skill.SkillHandler.CalcDamage(System.Boolean,SagaDB.Actor.Actor,SagaDB.Actor.Actor,SagaMap.SkillArg,SagaMap.Skill.SkillHandler.DefType,SagaLib.Elements,System.Int32,System.Single,SagaMap.Skill.SkillHandler.AttackResult@,System.Int32,System.Int32,System.Single)">
             <summary>
             計算傷害（實際不造成傷害！！）
             </summary>
@@ -7476,6 +7841,14 @@
             <param name="actor">Actor which the addition should be applied to</param>
             <param name="addition">Addition to be applied</param>
         </member>
+        <member name="M:SagaMap.Skill.SkillHandler.PushBack(SagaDB.Actor.Actor,SagaDB.Actor.Actor,System.Int32)">
+            <summary>
+            击退函数
+            </summary>
+            <param name="ori">击退发动者</param>
+            <param name="dest">被击退者</param>
+            <param name="step">击退距离</param>
+        </member>
         <member name="M:SagaMap.Skill.SkillHandler.CheckSkillCanCastForWeapon(SagaDB.Actor.ActorPC,SagaMap.SkillArg)">
             <summary>
             检查技能是否符合装备条件
@@ -7515,6 +7888,54 @@
             </summary>
             <param name="sActor">攻击者</param>
             <param name="type">0=魔法功擊,1=物理功擊,2=技能施放</param>
+            <returns></returns>
+        </member>
+        <member name="M:SagaMap.Skill.SkillHandler.CheckPcBowAndArrow(SagaDB.Actor.ActorPC,System.Int32)">
+            <summary>
+            检查是弓和箭是否通过条件
+            </summary>
+            <param name="pc">攻击者</param>
+            <param name="number">消耗箭矢数量</param>
+            <returns></returns>
+        </member>
+        <member name="M:SagaMap.Skill.SkillHandler.PcArrowDown(SagaDB.Actor.Actor,System.Int32)">
+            <summary>
+            消耗特定箭矢
+            </summary>
+            <param name="pc">攻击者</param>
+            <param name="number">消耗箭矢数量</param>
+            <returns></returns>
+        </member>
+        <member name="M:SagaMap.Skill.SkillHandler.CheckPcGunAndBullet(SagaDB.Actor.ActorPC,System.Int32)">
+            <summary>
+            检查是枪和子弹是否通过条件
+            </summary>
+            <param name="pc">攻击者</param>
+            <param name="number">消耗弹药数量</param>
+            <returns></returns>
+        </member>
+        <member name="M:SagaMap.Skill.SkillHandler.PcBulletDown(SagaDB.Actor.Actor,System.Int32)">
+            <summary>
+            消耗特定子弹
+            </summary>
+            <param name="pc">攻击者</param>
+            <param name="number">消耗子弹数量</param>
+            <returns></returns>
+        </member>
+        <member name="M:SagaMap.Skill.SkillHandler.CheckPcLongAttack(SagaDB.Actor.ActorPC,System.Int32)">
+            <summary>
+            检查是远程装备是否通过条件
+            </summary>
+            <param name="pc">攻击者</param>
+            <param name="number">消耗弹药数量</param>
+            <returns></returns>
+        </member>
+        <member name="M:SagaMap.Skill.SkillHandler.PcArrowAndBulletDown(SagaDB.Actor.Actor,System.Int32)">
+            <summary>
+            消耗特定远程武器弹药
+            </summary>
+            <param name="pc">攻击者</param>
+            <param name="number">消耗弹药数量</param>
             <returns></returns>
         </member>
         <member name="M:SagaMap.Skill.SkillHandler.CheckValidAttackTarget(SagaDB.Actor.Actor,SagaDB.Actor.Actor)">
@@ -8019,6 +8440,40 @@
             </summary>
             <param name="sActor"></param>
             <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SagaMap.PC.StatusFactory.CalcStats(SagaDB.Actor.ActorPC)">
+            <summary>
+            计算素质属性能力
+            </summary>
+            <param name="pc"></param>
+        </member>
+        <member name="M:SagaMap.PC.StatusFactory.GetEnhanceBonus(SagaDB.Item.Item,System.Int32)">
+            <summary>
+            获取强化奖励数值
+            </summary>
+            <param name="item">道具本身</param>
+            <param name="Type">0: 生命 1: ATK DEF MATK 2: MDEF 3: 爆击相关</param>
+            <returns></returns>
+        </member>
+        <member name="M:SagaMap.PC.StatusFactory.ApplyIrisCardAbilities(SagaDB.Actor.ActorPC,SagaDB.Item.Item)">
+            <summary>
+            Calculate item's card ability values on PC
+            </summary>
+            <param name="pc"></param>
+            <param name="item"></param>
+        </member>
+        <member name="M:SagaMap.PC.StatusFactory.ApplyIrisRes(SagaDB.Actor.ActorPC)">
+            <summary>
+            Calculate item's card ability levels on PC and basic(original) RAs
+            </summary>
+            <param name="pc"></param>
+        </member>
+        <member name="M:SagaMap.PC.StatusFactory.UIStatusModRAs(SagaDB.Actor.ActorPC,System.Collections.Generic.Dictionary{SagaDB.Iris.AbilityVector,System.Int32})">
+            <summary>
+            Get all RAs for ui display
+            </summary>
+            <param name="irislevels"></param>
             <returns></returns>
         </member>
         <member name="T:SagaMap.PacketLogger.PacketLogger">

@@ -5,10 +5,8 @@ using System.Text;
 using System.Data;
 using System.Threading;
 
-using MySql.Data;
-using MySql.Data.MySqlClient;
-
 using SagaLib;
+using MySqlConnector;
 
 namespace SagaLib
 {

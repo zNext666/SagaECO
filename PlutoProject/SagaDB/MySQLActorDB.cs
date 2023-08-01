@@ -11,10 +11,9 @@ using SagaDB.Partner;
 using SagaDB.Item;
 using SagaDB.Quests;
 using SagaLib;
-using MySql.Data;
-using MySql.Data.MySqlClient;
 using System.Linq;
 using SagaDB.Mob;
+using MySqlConnector;
 
 namespace SagaDB
 {
@@ -1618,7 +1617,7 @@ namespace SagaDB
                         if (buf[0] == 0x42 && buf[1] == 0x5A)
                         {
                             System.IO.MemoryStream ms2 = new System.IO.MemoryStream();
-                            BZip2.Decompress(ms, ms2);
+                            BZip2.Decompress(ms, ms2,false);
                             ms = new System.IO.MemoryStream(ms2.ToArray());
                             BinaryFormatter bf = new BinaryFormatter();
                             inv = (Item.Inventory)bf.Deserialize(ms);
@@ -1662,7 +1661,7 @@ namespace SagaDB
                         {
                             pc.Inventory.WareHouse = new Dictionary<WarehousePlace, List<SagaDB.Item.Item>>();
                             System.IO.MemoryStream ms2 = new System.IO.MemoryStream();
-                            BZip2.Decompress(ms, ms2);
+                            BZip2.Decompress(ms, ms2,false);
                             ms = new System.IO.MemoryStream(ms2.ToArray());
                             BinaryFormatter bf = new BinaryFormatter();
                             inv = (Dictionary<WarehousePlace, List<SagaDB.Item.Item>>)bf.Deserialize(ms);
