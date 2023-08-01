@@ -17,6 +17,7 @@ namespace TomatoProxyTool
         {
             LOGIN, MAP, REDIRECTING, DISCONNECTED
         }
+
         public SESSION_STATE state;
         public ServerSession session;
 
@@ -36,9 +37,9 @@ namespace TomatoProxyTool
             if (this.netIO.sock.Connected)
                 this.OnConnect();
         }
+
         public override void OnConnect()
         {
-
         }
 
         public override void OnDisconnect()
@@ -50,13 +51,13 @@ namespace TomatoProxyTool
                     this.state = SESSION_STATE.DISCONNECTED;
                     session.netIO.Disconnect();
                 }
-
             }
             catch (Exception ex)
             {
                 Logger.ShowError(ex, null);
             }
         }
+
         public void OnSendUniversal(Packets.Client.SendUniversal p)
         {
             try
@@ -87,6 +88,7 @@ namespace TomatoProxyTool
                 MainUI.Instance.Invoke(new Action(() => { MainUI.Instance.PacketInfoBox.Text += ex.ToString(); }));
             }
         }
+
         public string DumpData(Packet p)
         {
             string tmp2 = "";

@@ -445,9 +445,6 @@
   <data name="textBox8.Text" xml:space="preserve">
     <value>When the Pict is displayed, the pinch mode needs to be turned on</value>
   </data>
-  <data name="openFileDialog1.Filter" xml:space="preserve">
-    <value />
-  </data>
   <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
     <value>732, 44</value>
   </data>

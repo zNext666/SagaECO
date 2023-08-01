@@ -1,6 +1,7 @@
 ﻿using SagaLib;
 using System;
 using System.Collections.Generic;
+
 namespace TomatoProxyTool
 {
     [Serializable]
@@ -18,7 +19,6 @@ namespace TomatoProxyTool
 
         public PacketContainer()
         {
-
         }
     }
 }

@@ -5,10 +5,10 @@ using System.Windows.Forms;
 
 namespace TomatoProxyTool
 {
-    static class Program
+    internal static class Program
     {
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             Thread.CurrentThread.CurrentUICulture = CultureInfo.CurrentUICulture;
             Application.EnableVisualStyles();

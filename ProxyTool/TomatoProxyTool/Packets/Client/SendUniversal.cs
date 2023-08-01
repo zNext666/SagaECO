@@ -11,14 +11,17 @@ namespace TomatoProxyTool.Packets.Client
             this.size = 8;
             this.offset = 8;
         }
+
         public override bool isStaticSize()
         {
             return false;
         }
+
         public override Packet New()
         {
             return (SagaLib.Packet)new TomatoProxyTool.Packets.Client.SendUniversal();
         }
+
         public override void Parse(SagaLib.Client client)
         {
             ((ProxyClient)(client)).OnSendUniversal(this);

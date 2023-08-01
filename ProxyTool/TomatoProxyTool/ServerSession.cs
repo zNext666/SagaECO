@@ -12,14 +12,15 @@ namespace TomatoProxyTool
         {
             CONNECTED, DISCONNECTED
         }
+
         public SESSION_STATE state;
         public ProxyClient Client;
         private Socket sock;
         private string host;
         private int port;
-        bool mapserver = false;
+        private bool mapserver = false;
 
-        Dictionary<ushort, Packet> commandTable;
+        private Dictionary<ushort, Packet> commandTable;
 
         public ServerSession(string host, int port, ProxyClient client, bool mapserver)
         {
@@ -34,6 +35,7 @@ namespace TomatoProxyTool
             this.port = port;
             this.Connect();
         }
+
         public void Connect()
         {
             bool Connected = false;
@@ -77,10 +79,12 @@ namespace TomatoProxyTool
                 MainUI.Instance.Invoke(new Action(() => { MainUI.Instance.PacketInfoBox.Text += ex.ToString(); }));
             }
         }
+
         public void OnSendUniversal(Packets.Server.SendUniversal p)
         {
             OnSendUniversal(p, false);
         }
+
         public void OnSendUniversal(Packets.Server.SendUniversal p, bool s)
         {
             try
@@ -147,9 +151,9 @@ namespace TomatoProxyTool
                 MainUI.Instance.Invoke(new Action(() => { MainUI.Instance.PacketInfoBox.Text += ex.ToString(); }));
             }
         }
+
         public override void OnConnect()
         {
-
         }
 
         public override void OnDisconnect()
@@ -160,7 +164,8 @@ namespace TomatoProxyTool
                 //this.Client.netIO.Disconnect();
             }
         }
-        void Handle0x33(Packet p)
+
+        private void Handle0x33(Packet p)
         {
             if (!MainUI.Instance.login)
             {

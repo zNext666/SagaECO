@@ -8,11 +8,12 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Threading;
+
 namespace TomatoProxyTool
 {
     public class ProxyClientManager : ClientManager
     {
-        List<ProxyClient> clients;
+        private List<ProxyClient> clients;
         public Thread check;
         public string IP;
         public int port;
@@ -24,13 +25,14 @@ namespace TomatoProxyTool
         public bool mapServer;
 
         public Dictionary<int, PP> proxyIDList = new Dictionary<int, PP>();
-        string path;
+        private string path;
 
         public class PP
         {
             public string name;
             public int length;
         }
+
         public static ProxyClientManager Instance
         {
             get
@@ -38,7 +40,8 @@ namespace TomatoProxyTool
                 return Nested.instance;
             }
         }
-        class Nested
+
+        private class Nested
         {
             static Nested()
             {
@@ -46,6 +49,7 @@ namespace TomatoProxyTool
 
             internal static readonly ProxyClientManager instance = new ProxyClientManager();
         }
+
         public ProxyClientManager()
         {
             this.clients = new List<ProxyClient>();
@@ -59,6 +63,7 @@ namespace TomatoProxyTool
             ckeck.Start();
 #endif
         }
+
         public override void NetworkLoop(int maxNewConnections)
         {
             try
@@ -79,13 +84,14 @@ namespace TomatoProxyTool
                 {
                     MainUI.Instance.Invoke(new Action(() => { MainUI.Instance.PacketInfoBox.Text += ex.ToString(); }));
                 }
-
             }
         }
+
         public override void OnClientDisconnect(Client client_t)
         {
             clients.Remove((ProxyClient)client_t);
         }
+
         public Dictionary<int, PP> LoadProxyListFromLocal(string path)
         {
             Dictionary<string, string> dic = new Dictionary<string, string>() { { "CompilerVersion", "v4.0" } };
@@ -114,8 +120,8 @@ namespace TomatoProxyTool
                 MainUI.Instance.Invoke(new Action(() => { MainUI.Instance.showmessage(ex.ToString()); }));
                 return proxyIDList;
             }
-
         }
+
         private Assembly Compile(string[] Source, CodeDomProvider Provider)
         {
             //ICodeCompiler compiler = Provider.;
@@ -153,6 +159,7 @@ namespace TomatoProxyTool
             //get a hold of the actual assembly that was generated
             return results.CompiledAssembly;
         }
+
         private int LoadAssembly(Assembly newAssembly)
         {
             Module[] newScripts = newAssembly.GetModules();
